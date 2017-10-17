@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Thriftify</string>
+    <string name="login">Login</string>
 </resources>
