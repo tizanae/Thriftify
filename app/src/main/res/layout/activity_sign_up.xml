@@ -1,129 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+android:fillViewport="true"
+android:visibility="visible">
+
+<LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="theateam.thriftify.SignUpActivity">
+    android:layout_height="wrap_content"
+    android:background="@color/primary"
+    android:orientation="vertical"
+    android:paddingLeft="24dp"
+    android:paddingRight="24dp"
+    android:paddingTop="56dp">
 
-    <LinearLayout
-        android:layout_width="0dp"
+    <ImageView
+        android:contentDescription="@string/app_name"
+        android:layout_width="wrap_content"
+        android:layout_height="72dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="24dp"
+        android:src="@drawable/logo_dark" />
+
+    <!--  Email Label -->
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/primary"
-        android:orientation="vertical"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp"
-        android:paddingTop="56dp"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintRight_creator="1"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp">
 
-        <android.support.design.widget.TextInputLayout
+        <EditText
+            android:id="@+id/sign_up_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp">
+            android:hint="@string/username_label"
+            android:imeOptions="actionNext"
+            android:maxLines="1"
+            android:textIsSelectable="false"
+            android:inputType="textEmailAddress" />
 
-            <AutoCompleteTextView
-                android:id="@+id/sign_up_username"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="25sp"
-                android:hint="@string/username_label"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white"
-                android:inputType="textNoSuggestions"
-                android:imeOptions="actionNext"
-                android:maxLines="1"
-                android:textIsSelectable="false"
-                android:textStyle="bold"/>
+    </android.support.design.widget.TextInputLayout>
 
-        </android.support.design.widget.TextInputLayout>
+    <!--  Email Label -->
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp">
 
-        <android.support.design.widget.TextInputLayout
+        <AutoCompleteTextView
+            android:id="@+id/sign_up_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp">
+            android:imeOptions="actionNext"
+            android:hint="@string/email_label"
+            android:inputType="textEmailAddress" />
 
-            <AutoCompleteTextView
-                android:id="@+id/sign_up_email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/email_label"
-                android:textColor="@color/white"
-                android:textSize="25sp"
-                android:imeOptions="actionNext"
-                android:textColorHint="@color/white"
-                android:inputType="textEmailAddress"
-                android:maxLines="1"
-                android:textIsSelectable="false"
-                android:textStyle="bold"/>
+    </android.support.design.widget.TextInputLayout>
 
-        </android.support.design.widget.TextInputLayout>
+    <!--  Password Label -->
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp">
 
-        <android.support.design.widget.TextInputLayout
+        <EditText
+            android:id="@+id/sign_up_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp">
+            android:imeActionId="@+id/login"
+            android:hint="@string/password_label"
+            android:inputType="textPassword" />
+    </android.support.design.widget.TextInputLayout>
 
-            <EditText
-                android:id="@+id/sign_up_password"
-                android:textSize="25sp"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white"
-                android:layout_width="match_parent"
-                android:imeOptions="actionNext"
-                android:layout_height="wrap_content"
-                android:hint="@string/password_label"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                android:textStyle="bold"/>
-        </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp">
 
-
-        <android.support.design.widget.TextInputLayout
+        <EditText
+            android:id="@+id/sign_up_confirm_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp">
+            android:hint="@string/password_confirm_label"
+            android:imeActionId="@+id/register_form_finished"
+            android:imeActionLabel="@string/sign_up_prompt"
+            android:imeOptions="actionUnspecified"
+            android:maxLines="1"
+            android:inputType="textPassword" />
+    </android.support.design.widget.TextInputLayout>
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:layout_marginTop="24dp"
+        android:padding="12dp"
+        android:onClick="SignUpNewUser"
+        android:text="@string/Sign_up_label"/>
+    <TextView
+        android:id="@+id/sign_up_link"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:gravity="center"
+        android:clickable="true"
+        android:onClick="GoToLogin"
+        android:text="@string/go_to_login_prompt"
+        android:textSize="16sp" />
 
-            <EditText
-                android:id="@+id/sign_up_confirm_password"
-                android:textColor="@color/white"
-                android:textSize="25sp"
-                android:textColorHint="@color/white"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/password_confirm_label"
-                android:imeActionId="@+id/register_form_finished"
-                android:imeActionLabel="@string/sign_up_prompt"
-                android:imeOptions="actionUnspecified"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                android:textStyle="bold"/>
-        </android.support.design.widget.TextInputLayout>
-
-
-        <Button
-            android:id="@+id/btn_login"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:layout_marginTop="24dp"
-            android:padding="12dp"
-            android:onClick="SignUpNewUser"
-            android:text="@string/Sign_up_label"
-            android:textColor="@color/common_google_signin_btn_text_dark_default"/>
-
-
-
-
-    </LinearLayout>
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>
+</ScrollView>

@@ -61,6 +61,12 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
 
+    public void GoToLogin(View v) {
+        Intent intent = new Intent(this, theateam.thriftify.LoginActivity.class);
+        finish();
+        startActivity(intent);
+    }
+
     // call from sign up link
     public void SignUpNewUser(View v) {
         registerMe();
