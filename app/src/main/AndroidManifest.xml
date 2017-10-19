@@ -15,9 +15,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="theateam.thriftify.MainActivity" android:theme="@style/AppTheme.Dark"/>
+        <activity android:name="theateam.thriftify.MainActivity" android:theme="@style/OutsideTheme"/>
 
-        <activity android:name="theateam.thriftify.SignUpActivity" android:theme="@style/AppTheme.Dark"/>
+        <activity android:name="theateam.thriftify.SignUpActivity" android:theme="@style/OutsideTheme"/>
     </application>
 
 </manifest>

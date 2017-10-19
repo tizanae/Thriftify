@@ -10,8 +10,7 @@
         android:layout_height="wrap_content"
         android:background="@color/primary"
         android:orientation="vertical"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp"
+
         android:paddingTop="56dp">
 
         <ImageView
