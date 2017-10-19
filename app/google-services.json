@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "290106343357",
+    "firebase_url": "https://thriftify-9175b.firebaseio.com",
+    "project_id": "thriftify-9175b",
+    "storage_bucket": "thriftify-9175b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:290106343357:android:212e1e791db00dac",
+        "android_client_info": {
+          "package_name": "theateam.thriftify"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "290106343357-5hsjjqqi8g9903901nj5kmb39d8cn8ep.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbLLkQ52lHGE4oXyQk7aBjX3qucBw3Guk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
