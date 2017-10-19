@@ -1,4 +1,18 @@
 <resources>
-    <string name="app_name">Thriftify</string>
+    <string name="app_name">thriftify</string>
     <string name="login">Login</string>
+    <string name="invalid_password">Password is invalid!\nMust contain at least 1 number\nAt least 1 letter\nBe at least 8 characters long</string>
+    <string name="invalid_email">Please enter valid email address</string>
+    <string name="required">*Required Field</string>
+    <string name="email_label">Email</string>
+    <string name="username_label">Username</string>
+    <string name="password_label">Password</string>
+    <string name="password_confirm_label">Re-Enter Password</string>
+    <string name="Sign_up_label">Sign Up</string>
+    <string name="sign_up_prompt">Don\'t have an account yet? Sign Up</string>
+    <string name="sign_up_failed">Sign-up attempt failed!</string>
+    <string name="sign_up_success">User created!</string>
+    <string name="progress_msg">Login in progress\u2026</string>
+    <string name="sign_in_issue">There was an issue signing in</string>
+    <string name="hi_str">Hi </string>
 </resources>

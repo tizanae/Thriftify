@@ -15,6 +15,7 @@
         android:paddingTop="56dp">
 
         <ImageView
+            android:contentDescription="@string/app_name"
             android:layout_width="wrap_content"
             android:layout_height="72dp"
             android:layout_gravity="center_horizontal"
@@ -28,12 +29,13 @@
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp">
 
-            <android.support.design.widget.TextInputEditText
+            <AutoCompleteTextView
                 android:id="@+id/input_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Email"
+                android:hint="@string/email_label"
                 android:inputType="textEmailAddress" />
+
         </android.support.design.widget.TextInputLayout>
 
         <!--  Password Label -->
@@ -43,11 +45,12 @@
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp">
 
-            <android.support.design.widget.TextInputEditText
+            <EditText
                 android:id="@+id/input_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Password"
+                android:imeActionId="@+id/login"
+                android:hint="@string/password_label"
                 android:inputType="textPassword" />
         </android.support.design.widget.TextInputLayout>
 
@@ -58,7 +61,8 @@
             android:layout_marginBottom="24dp"
             android:layout_marginTop="24dp"
             android:padding="12dp"
-            android:text="Login" />
+            android:onClick="UserSignIn"
+            android:text="@string/login" />
 
         <TextView
             android:id="@+id/sign_up_link"
@@ -66,8 +70,10 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
             android:gravity="center"
-            android:text="Don't have an account yet? Sign Up"
-            android:textSize="16dip" />
+            android:clickable="true"
+            android:onClick="SignUpNewUser"
+            android:text="@string/sign_up_prompt"
+            android:textSize="16sp" />
 
     </LinearLayout>
 </ScrollView>
