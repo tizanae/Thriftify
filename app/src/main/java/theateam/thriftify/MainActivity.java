@@ -8,6 +8,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
@@ -21,7 +25,28 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        String[] values = new String[] { "Popular Nearby", "Electronics", "Tools" };
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<String>(this,
+                R.layout.category_item,
+                R.id.category_name,
+                values
+        );
+        ListView listView = (ListView) findViewById(R.id.categories);
+        listView.setAdapter(categoryAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView parent, View v, int position, long id) {
+                openCategory();
+            }
+        });
+
     }
+
+    private void openCategory() {
+        Intent intent = new Intent(this, theateam.thriftify.CategoryViewActivity.class);
+        finish();
+        startActivity(intent);
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

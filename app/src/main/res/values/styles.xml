@@ -5,7 +5,7 @@
         <item name="android:colorAccent">@color/secondary</item>
         <item name="android:colorPrimary">@color/primary</item>
         <item name="android:colorPrimaryDark">@color/primary_dark</item>
-        <item name="android:textColorSecondary">@android:color/darker_gray</item>
+        <item name="android:textColorSecondary">@color/primary_light</item>
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <item name="colorAccent">@color/secondary</item>
@@ -14,6 +14,7 @@
         <item name="android:colorForeground">@color/black</item>
         <item name="android:textColorPrimary">@color/black</item>
         <item name="android:textColorPrimaryInverse">@color/white</item>
+        <item name="android:textColorHint">@color/primary_light</item>
         <item name="android:label">@string/app_name</item>
         <!--<item name="toolbarStyle">@style/Widget.AppCompat.Toolbar</item>-->
         <!-- Customize your theme here. -->
