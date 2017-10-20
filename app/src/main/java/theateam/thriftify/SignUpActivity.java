@@ -3,6 +3,7 @@ package theateam.thriftify;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,13 +28,15 @@ public class SignUpActivity extends AppCompatActivity {
     public static final String SCREEN_NAME_KEY = "username";
 
     // UI references.
-    private AutoCompleteTextView emailView;
-    private AutoCompleteTextView usernameView;
-    private EditText passwordView;
-    private EditText passwordConfirmView;
+    private TextInputEditText emailView;
+    private TextInputEditText usernameView;
+    private TextInputEditText passwordView;
+    private TextInputEditText passwordConfirmView;
 
     // Firebase instance variables
     private FirebaseAuth Auth;  //firebase authentication object
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +59,7 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
-        //instance of firebase authentication object
+        //instance of Firebase authentication object
         Auth = FirebaseAuth.getInstance();
     }
 
@@ -105,10 +108,6 @@ public class SignUpActivity extends AppCompatActivity {
             focusView = emailView;
             cancel = true;
 
-//        } else if (TextUtils.isEmpty(username)){
-//            usernameView.setError(getString(R.string.required));
-//            focusView = usernameView;
-//            cancel = true;
         }
 
         if (cancel) {
@@ -132,25 +131,27 @@ public class SignUpActivity extends AppCompatActivity {
     private boolean validatePassword(String password) {
         String confirmPassword = passwordConfirmView.getText().toString();
         // TODO: improve password validation
-        return confirmPassword.equals(password) && password.length() >= 8 && password.matches(".*\\d+.*") ; //&& password.contains("[a-zA-Z]+")
+        return confirmPassword.equals(password) && password.length() > 7 && !password.equals("");// && password.matches(".*\\d+.*") ; //&& password.contains("[a-zA-Z]+")
     }
 
     // creating new firebase user
     private void createFBuser(){
         String email = emailView.getText().toString();
         String password = passwordView.getText().toString();
+
         //create user then use task object returned to listen for new user created event on fire base
         Auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                Log.d("thriftify", "createUser onComplete: " + task.isSuccessful());
+                Log.d("thriftify", "The createUser onComplete is: " + task.isSuccessful());
 
                 if (!task.isSuccessful()){
                     Log.d("thriftify", "Failed to create user" );
                     errorAlert(getString(R.string.sign_up_failed));
                 }else{
                     saveScreenName();   //save username once user exists in fire base
-                    // TODO: popup to show user creation success before switiching activities
+                    // TODO: popup to show user creation success before switching activities
 //                    successAlert(getString(R.string.sign_up_success));
                     Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
                     finish();

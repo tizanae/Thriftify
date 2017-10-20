@@ -15,5 +15,9 @@
     <string name="go_to_login_prompt">Already have an account? Login</string>
     <string name="progress_msg">Login in progress\u2026</string>
     <string name="sign_in_issue">There was an issue signing in</string>
-    <string name="hi_str">Hi </string>
+    <string name="search">Search</string>
+    <string name="menu">Menu</string>
+    <string name="sign_in_prompt">Already have an account? Login</string>
+    <string name="profile">My Profile</string>
+    <string name="chat">Chat</string>
 </resources>
