@@ -70,7 +70,7 @@ android:visibility="visible">
             android:id="@+id/sign_up_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:imeActionId="@+id/login"
+            android:imeOptions="actionNext"
             android:inputType="textPassword" />
     </android.support.design.widget.TextInputLayout>
 
@@ -85,9 +85,7 @@ android:visibility="visible">
             android:id="@+id/sign_up_confirm_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:imeActionId="@+id/register_form_finished"
-            android:imeActionLabel="@string/sign_up_prompt"
-            android:imeOptions="actionUnspecified"
+            android:imeOptions="actionSend"
             android:maxLines="1"
             android:inputType="textPassword" />
     </android.support.design.widget.TextInputLayout>
