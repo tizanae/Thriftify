@@ -1,0 +1,745 @@
+Index: app/src/main/res/layout/activity_login.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_login.xml	(date 1508444114000)
++++ app/src/main/res/layout/activity_login.xml	(date 1508485018000)
+@@ -10,7 +10,6 @@
+         android:layout_height="wrap_content"
+         android:background="@color/primary"
+         android:orientation="vertical"
+-
+         android:paddingTop="56dp">
+ 
+         <ImageView
+@@ -26,13 +25,13 @@
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_marginBottom="8dp"
++            android:hint="@string/email_label"
+             android:layout_marginTop="8dp">
+ 
+-            <AutoCompleteTextView
++            <android.support.design.widget.TextInputEditText
+                 android:id="@+id/input_email"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+-                android:hint="@string/email_label"
+                 android:inputType="textEmailAddress" />
+ 
+         </android.support.design.widget.TextInputLayout>
+@@ -42,14 +41,14 @@
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_marginBottom="8dp"
++            android:hint="@string/password_label"
+             android:layout_marginTop="8dp">
+ 
+-            <EditText
++            <android.support.design.widget.TextInputEditText
+                 android:id="@+id/input_password"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:imeActionId="@+id/login"
+-                android:hint="@string/password_label"
+                 android:inputType="textPassword" />
+         </android.support.design.widget.TextInputLayout>
+ 
+Index: app/src/main/res/layout/activity_my_account.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_my_account.xml	(date 1508485018000)
++++ app/src/main/res/layout/activity_my_account.xml	(date 1508485018000)
+@@ -0,0 +1,78 @@
++<?xml version="1.0" encoding="utf-8"?>
++<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
++            xmlns:app="http://schemas.android.com/apk/res-auto"
++            android:layout_width="fill_parent"
++            android:layout_height="fill_parent"
++            android:fillViewport="true"
++            android:visibility="visible">
++
++
++    <LinearLayout
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        android:orientation="vertical">
++
++        <include
++            layout="@layout/toolbar_main"
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content" />
++
++        <LinearLayout
++            android:layout_width="match_parent"
++            android:layout_height="match_parent"
++            android:orientation="horizontal">
++
++            <ImageView
++                android:id="@+id/imageView"
++                android:layout_width="165dp"
++                android:paddingLeft="24dp"
++                android:paddingRight="24dp"
++                android:layout_height="150dp"
++                app:srcCompat="@drawable/profile"/>
++
++            <LinearLayout
++                android:layout_width="match_parent"
++                android:layout_height="match_parent"
++                android:layout_weight="1"
++                android:orientation="vertical">
++
++                <TextView
++                    android:id="@+id/editText2"
++                    android:layout_width="match_parent"
++                    android:layout_height="150dp"
++                    android:layout_weight="0.03"
++                    android:ems="10"
++                    android:inputType="textPersonName"
++                    android:text="John Doe"/>
++
++                <TextView
++                    android:id="@+id/editText"
++                    android:layout_width="match_parent"
++                    android:layout_height="wrap_content"
++                    android:ems="10"
++                    android:inputType="textPersonName"
++                    android:text="Member for"
++                    android:layout_weight="0.13"/>
++
++            </LinearLayout>
++
++        </LinearLayout>
++
++        <LinearLayout
++            android:layout_width="match_parent"
++            android:layout_height="match_parent"
++            android:orientation="horizontal">
++
++            <EditText
++                android:id="@+id/editText3"
++                android:layout_width="match_parent"
++                android:layout_height="wrap_content"
++                android:layout_weight="1"
++                android:ems="10"
++                android:inputType="textPersonName"
++                android:text="Reviews"/>
++        </LinearLayout>
++
++
++    </LinearLayout>
++</ScrollView>
+\ No newline at end of file
+Index: app/src/main/res/layout/activity_sign_up.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_sign_up.xml	(date 1508444114000)
++++ app/src/main/res/layout/activity_sign_up.xml	(date 1508485018000)
+@@ -27,13 +27,13 @@
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_marginBottom="8dp"
++        android:hint="@string/username_label"
+         android:layout_marginTop="8dp">
+ 
+-        <EditText
++        <android.support.design.widget.TextInputEditText
+             android:id="@+id/sign_up_username"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+-            android:hint="@string/username_label"
+             android:imeOptions="actionNext"
+             android:maxLines="1"
+             android:textIsSelectable="false"
+@@ -46,14 +46,14 @@
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_marginBottom="8dp"
++        android:hint="@string/email_label"
+         android:layout_marginTop="8dp">
+ 
+-        <AutoCompleteTextView
++        <android.support.design.widget.TextInputEditText
+             android:id="@+id/sign_up_email"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:imeOptions="actionNext"
+-            android:hint="@string/email_label"
+             android:inputType="textEmailAddress" />
+ 
+     </android.support.design.widget.TextInputLayout>
+@@ -63,14 +63,14 @@
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_marginBottom="8dp"
++        android:hint="@string/password_label"
+         android:layout_marginTop="8dp">
+ 
+-        <EditText
++        <android.support.design.widget.TextInputEditText
+             android:id="@+id/sign_up_password"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:imeActionId="@+id/login"
+-            android:hint="@string/password_label"
+             android:inputType="textPassword" />
+     </android.support.design.widget.TextInputLayout>
+ 
+@@ -78,13 +78,13 @@
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_marginBottom="8dp"
++        android:hint="@string/password_confirm_label"
+         android:layout_marginTop="8dp">
+ 
+-        <EditText
++        <android.support.design.widget.TextInputEditText
+             android:id="@+id/sign_up_confirm_password"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+-            android:hint="@string/password_confirm_label"
+             android:imeActionId="@+id/register_form_finished"
+             android:imeActionLabel="@string/sign_up_prompt"
+             android:imeOptions="actionUnspecified"
+\ No newline at end of file
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/AndroidManifest.xml	(date 1508444114000)
++++ app/src/main/AndroidManifest.xml	(date 1508485018000)
+@@ -1,23 +1,30 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+-    package="theateam.thriftify">
++          package="theateam.thriftify">
+ 
+     <application
+         android:allowBackup="true"
+         android:icon="@mipmap/ic_launcher"
+-        android:label="@string/app_name"
++        android:label=""
+         android:theme="@style/AppTheme">
+         <activity
+-            android:name="theateam.thriftify.LoginActivity"
+-            android:label="@string/app_name">
++            android:name=".LoginActivity"
++            android:theme="@style/OutsideTheme">
+             <intent-filter>
+-                <action android:name="android.intent.action.MAIN" />
++                <action android:name="android.intent.action.MAIN"/>
++
+-                <category android:name="android.intent.category.LAUNCHER" />
++                <category android:name="android.intent.category.LAUNCHER"/>
+             </intent-filter>
+         </activity>
+-        <activity android:name="theateam.thriftify.MainActivity" android:theme="@style/OutsideTheme"/>
+-
+-        <activity android:name="theateam.thriftify.SignUpActivity" android:theme="@style/OutsideTheme"/>
++        <activity
++            android:name=".MainActivity"
++            android:theme="@style/AppTheme"/>
++        <activity
++            android:name=".SignUpActivity"
++            android:theme="@style/OutsideTheme"/>
++        <activity android:name=".MyAccount"
++                  android:theme="@style/AppTheme">
++        </activity>
+     </application>
+ 
+ </manifest>
+\ No newline at end of file
+Index: app/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/build.gradle	(date 1508444114000)
++++ app/build.gradle	(date 1508485018000)
+@@ -29,9 +29,9 @@
+     compile 'com.android.support:cardview-v7:26.1.0'
+     compile 'com.android.support:recyclerview-v7:26.1.0'
+     compile 'com.android.support:design:26.1.0'
+-    testCompile 'junit:junit:4.12'
+     compile 'com.google.firebase:firebase-core:11.4.2'
+     compile 'com.google.firebase:firebase-database:11.4.2'
+     compile 'com.google.firebase:firebase-auth:11.4.2'
++    testCompile 'junit:junit:4.12'
+ }
+ apply plugin: 'com.google.gms.google-services'
+Index: app/google-services.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/google-services.json	(date 1508485018000)
++++ app/google-services.json	(date 1508485018000)
+@@ -0,0 +1,42 @@
++{
++  "project_info": {
++    "project_number": "290106343357",
++    "firebase_url": "https://thriftify-9175b.firebaseio.com",
++    "project_id": "thriftify-9175b",
++    "storage_bucket": "thriftify-9175b.appspot.com"
++  },
++  "client": [
++    {
++      "client_info": {
++        "mobilesdk_app_id": "1:290106343357:android:212e1e791db00dac",
++        "android_client_info": {
++          "package_name": "theateam.thriftify"
++        }
++      },
++      "oauth_client": [
++        {
++          "client_id": "290106343357-5hsjjqqi8g9903901nj5kmb39d8cn8ep.apps.googleusercontent.com",
++          "client_type": 3
++        }
++      ],
++      "api_key": [
++        {
++          "current_key": "AIzaSyBbLLkQ52lHGE4oXyQk7aBjX3qucBw3Guk"
++        }
++      ],
++      "services": {
++        "analytics_service": {
++          "status": 1
++        },
++        "appinvite_service": {
++          "status": 1,
++          "other_platform_oauth_client": []
++        },
++        "ads_service": {
++          "status": 2
++        }
++      }
++    }
++  ],
++  "configuration_version": "1"
++}
+\ No newline at end of file
+Index: app/src/main/java/theateam/thriftify/LoginActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/theateam/thriftify/LoginActivity.java	(date 1508444114000)
++++ app/src/main/java/theateam/thriftify/LoginActivity.java	(date 1508485018000)
+@@ -1,7 +1,9 @@
+ package theateam.thriftify;
+ 
++import android.app.ActionBar;
+ import android.content.Intent;
+ import android.support.annotation.NonNull;
++import android.support.design.widget.TextInputEditText;
+ import android.support.v7.app.AlertDialog;
+ import android.support.v7.app.AppCompatActivity;
+ import android.os.Bundle;
+@@ -25,8 +27,8 @@
+ 
+     private FirebaseAuth Auth; //firebase authentication object
+     // UI reference objects
+-    private AutoCompleteTextView emailView;
+-    private EditText passwordView;
++    private TextInputEditText emailView;
++    private TextInputEditText passwordView;
+ 
+     @Override
+     protected void onCreate(Bundle savedInstanceState) {
+@@ -101,4 +103,5 @@
+                 .setIcon(android.R.drawable.ic_dialog_alert)
+                 .show();
+     }
++
+ }
+Index: app/src/main/res/menu/main_menu.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/menu/main_menu.xml	(date 1508485018000)
++++ app/src/main/res/menu/main_menu.xml	(date 1508485018000)
+@@ -0,0 +1,29 @@
++<?xml version="1.0" encoding="utf-8"?>
++<menu xmlns:android="http://schemas.android.com/apk/res/android"
++      xmlns:app="http://schemas.android.com/apk/res-auto"
++    >
++
++    <item
++        android:id="@+id/action_menu"
++        android:title="@string/menu"
++        android:orderInCategory="101"
++        app:showAsAction="always"
++        android:icon="@drawable/ic_menu">
++
++        <menu>
++
++            <item android:id="@+id/action_user_profile"
++                  android:icon="@drawable/ic_account"
++                  app:showAsAction="ifRoom"
++                  android:title="@string/profile" />
++
++            <item android:id="@+id/action_chat"
++                  android:icon="@drawable/ic_chat"
++                  app:showAsAction="ifRoom"
++                  android:title="@string/chat" />
++
++        </menu>
++
++    </item>
++
++</menu>
+Index: app/src/main/java/theateam/thriftify/MainActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/theateam/thriftify/MainActivity.java	(date 1508444114000)
++++ app/src/main/java/theateam/thriftify/MainActivity.java	(date 1508485018000)
+@@ -1,15 +1,18 @@
+ package theateam.thriftify;
+ 
++import android.content.Intent;
+ import android.content.SharedPreferences;
+ import android.support.v7.app.AppCompatActivity;
+ import android.os.Bundle;
+ import android.support.v7.widget.Toolbar;
++import android.view.Menu;
++import android.view.MenuInflater;
++import android.view.MenuItem;
+ import android.widget.TextView;
+ 
+ import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
+ 
+ public class MainActivity extends AppCompatActivity {
+-//    private String screenName;
+ 
+ 
+     @Override
+@@ -18,14 +21,39 @@
+         setContentView(R.layout.activity_main);
+         Toolbar toolbar = findViewById(R.id.toolbar);
+         setSupportActionBar(toolbar);
+-//        setupScreenName();
+     }
+ 
+-//    private void setupScreenName(){
+-//        SharedPreferences prefs = getSharedPreferences(SignUpActivity.APP_PREFS, MODE_PRIVATE);
+-//        screenName = prefs.getString(SignUpActivity.SCREEN_NAME_KEY, null);
+-//        if (screenName == null) screenName = "User";
+-//        TextView screenNameView  = findViewById(R.id.screen_name);
+-//        screenNameView.setText("Hi " + screenName);
++    @Override
++    public boolean onCreateOptionsMenu(Menu menu) {
++        // Inflate the menu items for use in the action bar
++        MenuInflater inflater = getMenuInflater();
++        inflater.inflate(R.menu.main_menu, menu);
++        return super.onCreateOptionsMenu(menu);
++    }
++
++    public boolean onOptionsItemSelected(MenuItem item) { // Handle presses on the action bar items
++        switch (item.getItemId()) {
++            case R.id.action_user_profile:
++                GoToProfile();
++                return true;
++//            case R.id.action_chat: GoToChat();
++//                return true;
++            default:
++                return super.onOptionsItemSelected(item);
++        }
++    }
++
++    private void GoToProfile() {
++        Intent intent = new Intent(this, MyAccount.class);
++        finish();
++        startActivity(intent);
++    }
++
++//    private  void GoToChat(){
++//        Intent intent = new Intent(this, ChatActivity.class);
++//        finish();
++//        startActivity(intent);
++//
+ //    }
++
+-}
++}
+\ No newline at end of file
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/misc.xml	(date 1508444114000)
++++ .idea/misc.xml	(date 1508485018000)
+@@ -37,7 +37,7 @@
+     <ConfirmationsSetting value="0" id="Add" />
+     <ConfirmationsSetting value="0" id="Remove" />
+   </component>
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" assert-keyword="true" jdk-15="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" default="true" assert-keyword="true" jdk-15="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+     <output url="file://$PROJECT_DIR$/build/classes" />
+   </component>
+   <component name="ProjectType">
+\ No newline at end of file
+Index: app/src/main/java/theateam/thriftify/MyAccount.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/theateam/thriftify/MyAccount.java	(date 1508485018000)
++++ app/src/main/java/theateam/thriftify/MyAccount.java	(date 1508485018000)
+@@ -0,0 +1,30 @@
++package theateam.thriftify;
++
++import android.content.SharedPreferences;
++import android.support.v7.app.AppCompatActivity;
++import android.os.Bundle;
++import android.support.v7.widget.AppCompatTextView;
++import android.support.v7.widget.Toolbar;
++import android.widget.TextView;
++
++public class MyAccount extends AppCompatActivity {
++
++    private String screenName;
++
++    @Override
++    protected void onCreate(Bundle savedInstanceState) {
++        super.onCreate(savedInstanceState);
++        setContentView(R.layout.activity_my_account);
++        setupScreenName();
++
++
++    }
++        private void setupScreenName(){
++        SharedPreferences prefs = getSharedPreferences(SignUpActivity.APP_PREFS, MODE_PRIVATE);
++        screenName = prefs.getString(SignUpActivity.SCREEN_NAME_KEY, null);
++        if (screenName == null) screenName = "User";
++        AppCompatTextView screenNameView  = findViewById(R.id.toolbar_title);
++        screenNameView.setText(screenName);
++    }
++}
++
+Index: .idea/inspectionProfiles/profiles_settings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/inspectionProfiles/profiles_settings.xml	(date 1508485018000)
++++ .idea/inspectionProfiles/profiles_settings.xml	(date 1508485018000)
+@@ -0,0 +1,7 @@
++<component name="InspectionProjectProfileManager">
++  <settings>
++    <option name="PROJECT_PROFILE" value="Project Default" />
++    <option name="USE_PROJECT_PROFILE" value="true" />
++    <version value="1.0" />
++  </settings>
++</component>
+\ No newline at end of file
+Index: .idea/inspectionProfiles/Project_Default.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/inspectionProfiles/Project_Default.xml	(date 1508485018000)
++++ .idea/inspectionProfiles/Project_Default.xml	(date 1508485018000)
+@@ -0,0 +1,6 @@
++<component name="InspectionProjectProfileManager">
++  <profile version="1.0">
++    <option name="myName" value="Project Default" />
++    <inspection_tool class="AndroidLintMissingConstraints" enabled="false" level="ERROR" enabled_by_default="false" />
++  </profile>
++</component>
+\ No newline at end of file
+Index: app/src/main/java/theateam/thriftify/SignUpActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/theateam/thriftify/SignUpActivity.java	(date 1508444114000)
++++ app/src/main/java/theateam/thriftify/SignUpActivity.java	(date 1508485018000)
+@@ -3,6 +3,7 @@
+ import android.content.Intent;
+ import android.content.SharedPreferences;
+ import android.support.annotation.NonNull;
++import android.support.design.widget.TextInputEditText;
+ import android.support.v7.app.AlertDialog;
+ import android.support.v7.app.AppCompatActivity;
+ import android.os.Bundle;
+@@ -27,13 +28,15 @@
+     public static final String SCREEN_NAME_KEY = "username";
+ 
+     // UI references.
+-    private AutoCompleteTextView emailView;
+-    private AutoCompleteTextView usernameView;
+-    private EditText passwordView;
+-    private EditText passwordConfirmView;
++    private TextInputEditText emailView;
++    private TextInputEditText usernameView;
++    private TextInputEditText passwordView;
++    private TextInputEditText passwordConfirmView;
+ 
+     // Firebase instance variables
+     private FirebaseAuth Auth;  //firebase authentication object
++
++
+     @Override
+     protected void onCreate(Bundle savedInstanceState) {
+         super.onCreate(savedInstanceState);
+@@ -56,7 +59,7 @@
+             }
+         });
+ 
+-        //instance of firebase authentication object
++        //instance of Firebase authentication object
+         Auth = FirebaseAuth.getInstance();
+     }
+ 
+@@ -105,10 +108,6 @@
+             focusView = emailView;
+             cancel = true;
+ 
+-//        } else if (TextUtils.isEmpty(username)){
+-//            usernameView.setError(getString(R.string.required));
+-//            focusView = usernameView;
+-//            cancel = true;
+         }
+ 
+         if (cancel) {
+@@ -132,25 +131,27 @@
+     private boolean validatePassword(String password) {
+         String confirmPassword = passwordConfirmView.getText().toString();
+         // TODO: improve password validation
+-        return confirmPassword.equals(password) && password.length() >= 8 && password.matches(".*\\d+.*") ; //&& password.contains("[a-zA-Z]+")
++        return confirmPassword.equals(password) && password.length() > 7 && !password.equals("");// && password.matches(".*\\d+.*") ; //&& password.contains("[a-zA-Z]+")
+     }
+ 
+     // creating new firebase user
+     private void createFBuser(){
+         String email = emailView.getText().toString();
+         String password = passwordView.getText().toString();
++
+         //create user then use task object returned to listen for new user created event on fire base
+         Auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
++
+             @Override
+             public void onComplete(@NonNull Task<AuthResult> task) {
+-                Log.d("thriftify", "createUser onComplete: " + task.isSuccessful());
++                Log.d("thriftify", "The createUser onComplete is: " + task.isSuccessful());
+ 
+                 if (!task.isSuccessful()){
+                     Log.d("thriftify", "Failed to create user" );
+                     errorAlert(getString(R.string.sign_up_failed));
+                 }else{
+                     saveScreenName();   //save username once user exists in fire base
+-                    // TODO: popup to show user creation success before switiching activities
++                    // TODO: popup to show user creation success before switching activities
+ //                    successAlert(getString(R.string.sign_up_success));
+                     Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+                     finish();
+Index: app/src/main/res/values/strings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/strings.xml	(date 1508444114000)
++++ app/src/main/res/values/strings.xml	(date 1508485018000)
+@@ -15,5 +15,9 @@
+     <string name="go_to_login_prompt">Already have an account? Login</string>
+     <string name="progress_msg">Login in progress\u2026</string>
+     <string name="sign_in_issue">There was an issue signing in</string>
+-    <string name="hi_str">Hi </string>
++    <string name="search">Search</string>
++    <string name="menu">Menu</string>
++    <string name="sign_in_prompt">Already have an account? Login</string>
++    <string name="profile">My Profile</string>
++    <string name="chat">Chat</string>
+ </resources>
+Index: app/src/main/res/values/styles.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/styles.xml	(date 1508444114000)
++++ app/src/main/res/values/styles.xml	(date 1508485018000)
+@@ -1,7 +1,7 @@
+ <resources>
+ 
+     <!-- Base application theme. -->
+-    <style name="AppTheme" parent="Base.V26.Theme.AppCompat">
++    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
+         <item name="android:colorAccent">@color/secondary</item>
+         <item name="android:colorPrimary">@color/primary</item>
+         <item name="android:colorPrimaryDark">@color/primary_dark</item>
+@@ -14,19 +14,21 @@
+         <item name="android:colorForeground">@color/black</item>
+         <item name="android:textColorPrimary">@color/black</item>
+         <item name="android:textColorPrimaryInverse">@color/white</item>
++        <item name="android:label">@string/app_name</item>
+         <!--<item name="toolbarStyle">@style/Widget.AppCompat.Toolbar</item>-->
+         <!-- Customize your theme here. -->
+     </style>
+ 
+-    <style name="OutsideTheme" parent="Base.V26.Theme.AppCompat">
++    <style name="OutsideTheme" parent="Theme.AppCompat.NoActionBar">
+         <item name="android:colorPrimary">@color/primary</item>
+         <item name="android:colorPrimaryDark">@color/primary_dark</item>
+         <item name="android:colorAccent">@color/secondary</item>
+-
+         <item name="android:windowBackground">@color/primary</item>
+-
++        <item name="android:windowNoTitle">true</item>
+         <item name="colorButtonNormal">@color/secondary</item>
+         <item name="android:colorButtonNormal">@color/secondary</item>
+ 
+     </style>
++    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
++
+ </resources>
+\ No newline at end of file
+Index: app/src/main/res/layout/toolbar_main.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/toolbar_main.xml	(date 1508444114000)
++++ app/src/main/res/layout/toolbar_main.xml	(date 1508485018000)
+@@ -1,22 +1,26 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+-    android:layout_width="match_parent"
++              android:layout_width="match_parent"
+-    android:layout_height="match_parent">
++              android:layout_height="match_parent"
++              xmlns:app="http://schemas.android.com/apk/res-auto">
++
+     <android.support.v7.widget.Toolbar
+-        android:id="@+id/toolbar3"
++        android:id="@+id/toolbar"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+-        android:background="?attr/colorPrimary"
++        android:background="@color/primary"
+         android:elevation="4dp"
+-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
++        app:popupTheme="@style/AppTheme.PopupOverlay"
+         android:textColorPrimary="@color/white">
++
+         <android.support.v7.widget.AppCompatTextView
+             android:id="@+id/toolbar_title"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
++            android:textSize="24sp"
+             android:text="@string/app_name"
+             android:textColor="@android:color/white"
+-            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
++            style="@style/AppTheme"
+             android:layout_gravity="center"
+             />
+     </android.support.v7.widget.Toolbar>
