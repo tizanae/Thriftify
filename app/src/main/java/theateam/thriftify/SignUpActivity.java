@@ -21,6 +21,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import static android.view.inputmethod.EditorInfo.IME_ACTION_SEND;
+
 public class SignUpActivity extends AppCompatActivity {
 
     // Constants
@@ -51,7 +53,7 @@ public class SignUpActivity extends AppCompatActivity {
         passwordConfirmView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.btn_login || id == EditorInfo.IME_NULL) { //login button or enter pressed from password confirm
+                if (id == R.id.btn_login ||  id == EditorInfo.IME_ACTION_SEND) { //login button|<SEND>|enter pressed from password confirm
                     registerMe();
                     return true;
                 }
