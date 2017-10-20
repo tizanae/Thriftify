@@ -1,7 +1,9 @@
 package theateam.thriftify;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,8 +27,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth Auth; //firebase authentication object
     // UI reference objects
-    private AutoCompleteTextView emailView;
-    private EditText passwordView;
+    private TextInputEditText emailView;
+    private TextInputEditText passwordView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,4 +103,5 @@ public class LoginActivity extends AppCompatActivity {
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
     }
+
 }

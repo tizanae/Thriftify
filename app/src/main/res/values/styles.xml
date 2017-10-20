@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Base.V26.Theme.AppCompat">
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:colorAccent">@color/secondary</item>
         <item name="android:colorPrimary">@color/primary</item>
         <item name="android:colorPrimaryDark">@color/primary_dark</item>
@@ -14,19 +14,21 @@
         <item name="android:colorForeground">@color/black</item>
         <item name="android:textColorPrimary">@color/black</item>
         <item name="android:textColorPrimaryInverse">@color/white</item>
+        <item name="android:label">@string/app_name</item>
         <!--<item name="toolbarStyle">@style/Widget.AppCompat.Toolbar</item>-->
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="OutsideTheme" parent="Base.V26.Theme.AppCompat">
+    <style name="OutsideTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:colorPrimary">@color/primary</item>
         <item name="android:colorPrimaryDark">@color/primary_dark</item>
         <item name="android:colorAccent">@color/secondary</item>
-
         <item name="android:windowBackground">@color/primary</item>
-
+        <item name="android:windowNoTitle">true</item>
         <item name="colorButtonNormal">@color/secondary</item>
         <item name="android:colorButtonNormal">@color/secondary</item>
 
     </style>
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
 </resources>
