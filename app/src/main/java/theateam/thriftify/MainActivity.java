@@ -25,13 +25,22 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        String[] values = new String[] { "Popular Nearby", "Electronics", "Tools" };
+        String[] values = new String[] {
+                "Popular Nearby",
+                "Electronics",
+                "Tools",
+                "Video Games",
+                "Antiques",
+                "Appliances",
+                "Arts",
+                "Auto Parts"
+        };
         ArrayAdapter<String> categoryAdapter = new ArrayAdapter<String>(this,
                 R.layout.category_item,
                 R.id.category_name,
                 values
         );
-        ListView listView = (ListView) findViewById(R.id.categories);
+        ListView listView = findViewById(R.id.categories);
         listView.setAdapter(categoryAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView parent, View v, int position, long id) {
