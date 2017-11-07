@@ -23,8 +23,10 @@ public class MyAccount extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences(SignUpActivity.APP_PREFS, MODE_PRIVATE);
         screenName = prefs.getString(SignUpActivity.SCREEN_NAME_KEY, null);
         if (screenName == null) screenName = "User";
-        AppCompatTextView screenNameView  = findViewById(R.id.toolbar_title);
-        screenNameView.setText(screenName);
+            AppCompatTextView screenNameView  = findViewById(R.id.toolbar_title);
+            screenNameView.setText(screenName);
+            TextView screenNameView2 = findViewById(R.id.screen_name);
+            screenNameView2.setText(screenName);
     }
 }
 

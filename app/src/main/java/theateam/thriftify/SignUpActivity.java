@@ -35,6 +35,7 @@ public class SignUpActivity extends AppCompatActivity {
     private TextInputEditText passwordView;
     private TextInputEditText passwordConfirmView;
 
+
     // Firebase instance variables
     private FirebaseAuth Auth;  //firebase authentication object
 
