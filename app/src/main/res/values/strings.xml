@@ -20,4 +20,9 @@
     <string name="sign_in_prompt">Already have an account? Login</string>
     <string name="profile">My Profile</string>
     <string name="chat">Chat</string>
+    <string name="drawer_item_categories">Categories</string>
+    <string name="drawer_item_post_item">Post Item</string>
+    <string name="drawer_item_messages">Messages</string>
+    <string name="drawer_item_my_account">My Account</string>
+    <string name="drawer_item_log_out">Log Out</string>
 </resources>

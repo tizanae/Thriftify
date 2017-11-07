@@ -2,6 +2,9 @@ package theateam.thriftify;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageView;
 
 import com.synnapps.carouselview.CarouselView;
@@ -17,6 +20,11 @@ public class PostInfo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_info);
 
+        // Pair with the bottom stuff to set up go back button
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         carouselView = findViewById(R.id.carouselView);
         carouselView.setPageCount(sampleImages.length);
 
@@ -29,4 +37,19 @@ public class PostInfo extends AppCompatActivity {
             imageView.setImageResource(sampleImages[position]);
         }
     };
+
+    // Pair with set display home as up enabled to set up go back button
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return true;
+    }
 }

@@ -16,10 +16,7 @@
         <item name="android:textColorPrimaryInverse">@color/white</item>
         <item name="android:textColorHint">@color/primary_light</item>
         <item name="android:label">@string/app_name</item>
-        <!--<item name="toolbarStyle">@style/Widget.AppCompat.Toolbar</item>-->
-        <!-- Customize your theme here. -->
     </style>
-
     <style name="OutsideTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:colorPrimary">@color/primary</item>
         <item name="android:colorPrimaryDark">@color/primary_dark</item>
@@ -28,8 +25,6 @@
         <item name="android:windowNoTitle">true</item>
         <item name="colorButtonNormal">@color/secondary</item>
         <item name="android:colorButtonNormal">@color/secondary</item>
-
     </style>
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
-
 </resources>
