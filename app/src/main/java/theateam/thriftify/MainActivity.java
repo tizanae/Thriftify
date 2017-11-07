@@ -1,30 +1,68 @@
 package theateam.thriftify;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 public class MainActivity extends AppCompatActivity {
 
+    private Drawer result;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Toolbar and drawer setup
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        result = new DrawerBuilder()
+                .withActivity(this)
+                .withToolbar(toolbar)
+                .withHasStableIds(true)
+                .addDrawerItems(
+                        new PrimaryDrawerItem().withName(R.string.drawer_item_categories).withIdentifier(1).withSelectable(false),
+                        new PrimaryDrawerItem().withName(R.string.drawer_item_post_item).withIdentifier(2).withSelectable(false),
+                        new PrimaryDrawerItem().withName(R.string.drawer_item_messages).withIdentifier(3).withSelectable(false),
+                        new PrimaryDrawerItem().withName(R.string.drawer_item_my_account).withIdentifier(4).withSelectable(false),
+                        new PrimaryDrawerItem().withName(R.string.drawer_item_log_out).withIdentifier(5).withSelectable(false)
+                )
+                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                    @Override
+                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
+                        if (drawerItem != null) {
+                            Intent intent = null;
+                            int identifier = (int)drawerItem.getIdentifier();
+                            switch(identifier) {
+                                case 1:
+                                    intent = new Intent(MainActivity.this, MainActivity.class);
+                                    break;
+                                case 2:
+                                    intent = new Intent(MainActivity.this, PostInfo.class);
+                                    break;
+                                default:
+                            }
+                            if (intent != null) {
+                                MainActivity.this.startActivity(intent);
+                            }
+                        }
+                        return false;
+                    }
+                })
+                .withSavedInstance(savedInstanceState)
+                .build();
+
+        // Main Stuff
         String[] values = new String[] {
                 "Popular Nearby",
                 "Electronics",
@@ -55,39 +93,5 @@ public class MainActivity extends AppCompatActivity {
         finish();
         startActivity(intent);
     }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu items for use in the action bar
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    public boolean onOptionsItemSelected(MenuItem item) { // Handle presses on the action bar items
-        switch (item.getItemId()) {
-            case R.id.action_user_profile:
-                GoToProfile();
-                return true;
-//            case R.id.action_chat: GoToChat();
-//                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    private void GoToProfile() {
-        Intent intent = new Intent(this, MyAccount.class);
-        finish();
-        startActivity(intent);
-    }
-
-//    private  void GoToChat(){
-//        Intent intent = new Intent(this, ChatActivity.class);
-//        finish();
-//        startActivity(intent);
-//
-//    }
 
 }
