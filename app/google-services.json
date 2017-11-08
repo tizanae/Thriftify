@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "290106343357-t2gkvok8f36g621iqo39ue85hh2nb0ei.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "theateam.thriftify",
+            "certificate_hash": "0bc1c39133f2cfd26456eff1af172ffb3bfd361d"
+          }
+        },
+        {
           "client_id": "290106343357-5hsjjqqi8g9903901nj5kmb39d8cn8ep.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "290106343357-5hsjjqqi8g9903901nj5kmb39d8cn8ep.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2

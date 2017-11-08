@@ -31,7 +31,12 @@
     <string name="contact">Contact</string>
     <string name="friend">Friend</string>
     <string name="report">Report</string>
-    <string name="member_since">Noob</string>
+    <string name="full_name">Full name</string>
+    <string name="member_since">Noob</string>>
+    <string name="phone_number">Phone number</string>
+    <string name="zipcode">Zip code</string>
+    <string name="upload_photo">Upload Pic</string>
+    <string name="save">Save</string>
 
 
 </resources>

@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
@@ -49,6 +50,13 @@ public class MainActivity extends AppCompatActivity {
                                     break;
                                 case 2:
                                     intent = new Intent(MainActivity.this, PostInfo.class);
+                                    break;
+                                case 4:
+                                    intent = new Intent(MainActivity.this, MyAccount.class);
+                                    break;
+                                case 5:
+                                    FirebaseAuth.getInstance().signOut();
+                                    intent = new Intent(MainActivity.this, LoginActivity.class);
                                     break;
                                 default:
                             }

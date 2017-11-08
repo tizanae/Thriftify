@@ -134,7 +134,7 @@ public class SignUpActivity extends AppCompatActivity {
     private boolean validatePassword(String password) {
         String confirmPassword = passwordConfirmView.getText().toString();
         // TODO: improve password validation
-        return confirmPassword.equals(password) && password.length() > 7 && !password.equals("");// && password.matches(".*\\d+.*") ; //&& password.contains("[a-zA-Z]+")
+        return confirmPassword.equals(password) && password.matches("^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\\d)[A-Za-z\\d]{8,}$") ;
     }
 
     // creating new firebase user

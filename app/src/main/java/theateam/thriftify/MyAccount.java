@@ -1,10 +1,12 @@
 package theateam.thriftify;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.TextView;
 
 public class MyAccount extends AppCompatActivity {
@@ -26,7 +28,12 @@ public class MyAccount extends AppCompatActivity {
             AppCompatTextView screenNameView  = findViewById(R.id.toolbar_title);
             screenNameView.setText(screenName);
             TextView screenNameView2 = findViewById(R.id.screen_name);
-            screenNameView2.setText(screenName);
+            screenNameView2.setText(screenName + " [edit]");
+    }
+    public void EditUser(View v) {
+        Intent intent = new Intent(this, theateam.thriftify.EditMyProfile.class);
+        finish();
+        startActivity(intent);
     }
 }
 

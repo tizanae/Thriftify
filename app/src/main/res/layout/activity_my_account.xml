@@ -44,6 +44,8 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
                     android:textSize="40sp"
+                    android:clickable="true"
+                    android:onClick="EditUser"
                     android:ems="10"
                     android:enabled="false"/>
 
