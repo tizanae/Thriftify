@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
-          package="theateam.thriftify">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="theateam.thriftify">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-feature android:name="android.hardware.camera" android:required="false" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
 
     <application
         android:allowBackup="true"
@@ -16,24 +19,27 @@
             android:name=".LoginActivity"
             android:theme="@style/OutsideTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".MainActivity"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".SignUpActivity"
-            android:theme="@style/OutsideTheme"/>
+            android:theme="@style/OutsideTheme" />
         <activity
             android:name=".MyAccount"
-            android:theme="@style/AppTheme"/>
-        <activity android:name=".CategoryViewActivity"/>
-        <activity android:name=".PostInfo"/>
-        <activity android:name=".EditMyProfile">
-        </activity>
+            android:theme="@style/AppTheme" />
+        <activity android:name=".CategoryViewActivity" />
+        <activity android:name=".PostInfo" />
+        <activity android:name=".EditMyProfile"></activity>
+        <activity
+            android:name=".PostItemActivity"
+            android:label="@string/title_activity_post_item"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

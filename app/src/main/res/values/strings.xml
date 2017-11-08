@@ -9,6 +9,9 @@
     <string name="password_label">Password</string>
     <string name="password_confirm_label">Re-Enter Password</string>
     <string name="Sign_up_label">Sign Up</string>
+    <string name="title_label">Title</string>
+    <string name="price_label">Price</string>
+    <string name="description_label">Description</string>
     <string name="sign_up_prompt">Don\'t have an account yet? Sign Up</string>
     <string name="sign_up_failed">Sign-up attempt failed!</string>
     <string name="sign_up_success">User created!</string>
@@ -37,7 +40,8 @@
     <string name="zipcode">Zip code</string>
     <string name="upload_photo">Upload Pic</string>
     <string name="save">Save</string>
+    <string name="photos">Photos</string>
     <string name="edit">(Edit/ Not you?)</string>
-
-
+    <string name="title_activity_post_item">PostItemActivity</string>
+    <string name="post_item_title">Post An Item</string>
 </resources>

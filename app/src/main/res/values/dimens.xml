@@ -1,7 +1,8 @@
 <resources>
-    <item name="visible" type="id"/>
-    <item name="masked" type="id"/>
+    <item name="visible" type="id" />
+    <item name="masked" type="id" />
     <dimen name="standard_padding">16dp</dimen>
     <dimen name="preview_picture_height">160dp</dimen>
     <dimen name="post_picture_height">240dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 </resources>
