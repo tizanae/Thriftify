@@ -37,6 +37,7 @@
     <string name="zipcode">Zip code</string>
     <string name="upload_photo">Upload Pic</string>
     <string name="save">Save</string>
+    <string name="edit">(Edit/ Not you?)</string>
 
 
 </resources>

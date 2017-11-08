@@ -15,6 +15,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -137,10 +138,10 @@ public class SignUpActivity extends AppCompatActivity {
         return confirmPassword.equals(password) && password.matches("^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\\d)[A-Za-z\\d]{8,}$") ;
     }
 
-    // creating new firebase user
+    // creating new fire base user
     private void createFBuser(){
-        String email = emailView.getText().toString();
-        String password = passwordView.getText().toString();
+        final String email = emailView.getText().toString();
+        final String password = passwordView.getText().toString();
 
         //create user then use task object returned to listen for new user created event on fire base
         Auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -154,9 +155,8 @@ public class SignUpActivity extends AppCompatActivity {
                     errorAlert(getString(R.string.sign_up_failed));
                 }else{
                     saveScreenName();   //save username once user exists in fire base
-                    // TODO: popup to show user creation success before switching activities
-//                    successAlert(getString(R.string.sign_up_success));
-                    Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+                    toastMessage("Sign-up successful: finish up user profile!");
+                    Intent intent = new Intent(SignUpActivity.this, EditMyProfile.class);
                     finish();
                     startActivity(intent);
                 }
@@ -190,5 +190,8 @@ public class SignUpActivity extends AppCompatActivity {
                 .setPositiveButton(android.R.string.ok,null)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
+    }
+    private void toastMessage(String message){
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }

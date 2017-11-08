@@ -28,10 +28,10 @@ public class MyAccount extends AppCompatActivity {
             AppCompatTextView screenNameView  = findViewById(R.id.toolbar_title);
             screenNameView.setText(screenName);
             TextView screenNameView2 = findViewById(R.id.screen_name);
-            screenNameView2.setText(screenName + " [edit]");
+            screenNameView2.setText(screenName);
     }
     public void EditUser(View v) {
-        Intent intent = new Intent(this, theateam.thriftify.EditMyProfile.class);
+        Intent intent = new Intent(MyAccount.this, EditMyProfile.class);
         finish();
         startActivity(intent);
     }

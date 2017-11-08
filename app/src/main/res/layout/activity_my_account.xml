@@ -44,11 +44,19 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
                     android:textSize="40sp"
-                    android:clickable="true"
-                    android:onClick="EditUser"
                     android:ems="10"
                     android:enabled="false"/>
-
+                <TextView
+                    android:id="@+id/user_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/secondary"
+                    android:textSize="12sp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="EditUser"
+                    android:text="@string/edit"
+                    android:ems="10"/>
                 <TextView
                     android:id="@+id/member_lifetime"
                     android:layout_width="match_parent"

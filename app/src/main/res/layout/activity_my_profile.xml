@@ -53,11 +53,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:hint="@string/full_name"
+                android:hint="@string/username_label"
                 android:layout_marginTop="8dp">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/user_edit_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionSend"
+                    android:maxLines="1"/>
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:hint="@string/full_name"
+                android:layout_marginTop="8dp">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/user_edit_fullname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:imeOptions="actionNext"
@@ -96,31 +110,19 @@
                     android:imeOptions="actionNext"/>
             </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
+
+            <Button
+                android:id="@+id/user_edit_save"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:hint="@string/zipcode"
-                android:layout_marginTop="8dp">
-
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/user_edit_zipcode"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:imeOptions="actionSend"
-                    android:maxLines="1"/>
-            </android.support.design.widget.TextInputLayout>
-
+                android:text="@string/save"
+                android:layout_gravity="center"
+                tools:layout_editor_absoluteX="137dp"
+                tools:layout_editor_absoluteY="518dp"/>
         </LinearLayout>
 
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/user_edit_save"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/save"
-        tools:layout_editor_absoluteX="137dp"
-        tools:layout_editor_absoluteY="518dp"/>
+
 </android.support.constraint.ConstraintLayout>
