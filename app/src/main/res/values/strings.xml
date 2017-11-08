@@ -25,4 +25,13 @@
     <string name="drawer_item_messages">Messages</string>
     <string name="drawer_item_my_account">My Account</string>
     <string name="drawer_item_log_out">Log Out</string>
+    <string name="review_label">Reviews</string>
+    <string name="no_reviews">This user has not been reviewed yet</string>
+    <string name="more">More&#8230;</string>
+    <string name="contact">Contact</string>
+    <string name="friend">Friend</string>
+    <string name="report">Report</string>
+    <string name="member_since">Noob</string>
+
+
 </resources>
