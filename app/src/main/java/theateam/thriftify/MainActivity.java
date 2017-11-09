@@ -15,60 +15,14 @@ import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
-public class MainActivity extends AppCompatActivity {
-
-    private Drawer result;
-
+public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Toolbar and drawer setup
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        result = new DrawerBuilder()
-                .withActivity(this)
-                .withToolbar(toolbar)
-                .withHasStableIds(true)
-                .addDrawerItems(
-                        new PrimaryDrawerItem().withName(R.string.drawer_item_categories).withIdentifier(1).withSelectable(false),
-                        new PrimaryDrawerItem().withName(R.string.drawer_item_post_item).withIdentifier(2).withSelectable(false),
-                        new PrimaryDrawerItem().withName(R.string.drawer_item_messages).withIdentifier(3).withSelectable(false),
-                        new PrimaryDrawerItem().withName(R.string.drawer_item_my_account).withIdentifier(4).withSelectable(false),
-                        new PrimaryDrawerItem().withName(R.string.drawer_item_log_out).withIdentifier(5).withSelectable(false)
-                )
-                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-                    @Override
-                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        if (drawerItem != null) {
-                            Intent intent = null;
-                            int identifier = (int)drawerItem.getIdentifier();
-                            switch(identifier) {
-                                case 1:
-                                    intent = new Intent(MainActivity.this, MainActivity.class);
-                                    break;
-                                case 2:
-                                    intent = new Intent(MainActivity.this, PostInfo.class);
-                                    break;
-                                case 4:
-                                    intent = new Intent(MainActivity.this, MyAccount.class);
-                                    break;
-                                case 5:
-                                    FirebaseAuth.getInstance().signOut();
-                                    intent = new Intent(MainActivity.this, LoginActivity.class);
-                                    break;
-                                default:
-                            }
-                            if (intent != null) {
-                                MainActivity.this.startActivity(intent);
-                            }
-                        }
-                        return false;
-                    }
-                })
-                .withSavedInstance(savedInstanceState)
-                .build();
+        getToolbar();
+        getDrawer();
 
         // Main Stuff
         String[] values = new String[] {

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/thumbnail"
+            android:layout_width="166dp"
+            android:layout_height="@dimen/preview_picture_height"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="21dp"
+            android:layout_marginTop="19dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:scaleType="centerCrop" />
+
+        <Button
+            android:id="@+id/defaultButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/thumbnail"
+            android:layout_marginStart="41dp"
+            android:layout_marginTop="15dp"
+            android:layout_toEndOf="@+id/thumbnail"
+            android:text="@string/default_button"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/deleteButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/defaultButton"
+            android:layout_below="@+id/defaultButton"
+            android:layout_marginTop="14dp"
+            android:text="@string/delete_button"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+
+</LinearLayout>

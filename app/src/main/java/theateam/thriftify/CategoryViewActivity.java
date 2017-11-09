@@ -8,12 +8,16 @@ import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class CategoryViewActivity extends AppCompatActivity {
+public class CategoryViewActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_view);
+
+        getToolbar();
+        setBackArrow();
+
         RecyclerView itemViewer = (RecyclerView)findViewById(R.id.item_viewer);
         itemViewer.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);

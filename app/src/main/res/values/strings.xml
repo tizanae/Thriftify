@@ -42,6 +42,8 @@
     <string name="save">Save</string>
     <string name="photos">Photos</string>
     <string name="edit">(Edit/ Not you?)</string>
-    <string name="title_activity_post_item">PostItemActivity</string>
     <string name="post_item_title">Post An Item</string>
+    <string name="default_button">Default</string>
+    <string name="delete_button">Delete</string>
+    <string name="post_item_button">Post Item</string>
 </resources>

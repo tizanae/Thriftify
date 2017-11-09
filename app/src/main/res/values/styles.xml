@@ -16,6 +16,8 @@
         <item name="android:textColorPrimaryInverse">@color/white</item>
         <item name="android:textColorHint">@color/primary_light</item>
         <item name="android:label">@string/app_name</item>
+        <item name="colorButtonNormal">@color/secondary</item>
+        <item name="android:colorButtonNormal">@color/secondary</item>
     </style>
 
     <style name="OutsideTheme" parent="Theme.AppCompat.NoActionBar">

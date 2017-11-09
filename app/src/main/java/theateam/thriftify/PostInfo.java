@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 
-public class PostInfo extends AppCompatActivity {
+public class PostInfo extends BaseActivity {
     CarouselView carouselView;
 
     int[] sampleImages = {R.drawable.post_image_2, R.drawable.post_image_1, R.drawable.post_image_3};
@@ -20,10 +20,8 @@ public class PostInfo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_info);
 
-        // Pair with the bottom stuff to set up go back button
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getToolbar();
+        setBackArrow();
 
         carouselView = findViewById(R.id.carouselView);
         carouselView.setPageCount(sampleImages.length);
