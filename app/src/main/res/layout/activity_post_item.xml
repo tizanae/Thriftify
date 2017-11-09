@@ -104,6 +104,7 @@
 
 
     <ListView
+        android:id="@+id/picturesContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
