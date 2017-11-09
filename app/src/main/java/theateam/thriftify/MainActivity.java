@@ -52,7 +52,6 @@ public class MainActivity extends BaseActivity {
 
     private void openCategory() {
         Intent intent = new Intent(this, theateam.thriftify.CategoryViewActivity.class);
-        finish();
         startActivity(intent);
     }
 

@@ -9,7 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
-public class MyAccount extends AppCompatActivity {
+public class MyAccount extends BaseActivity {
 
     private String screenName;
 
@@ -18,7 +18,8 @@ public class MyAccount extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_account);
         setupScreenName();
-
+        getToolbar();
+        getDrawer();
 
     }
         private void setupScreenName(){
