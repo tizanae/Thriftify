@@ -42,6 +42,7 @@
     <string name="save">Save</string>
     <string name="photos">Photos</string>
     <string name="edit">(Edit/ Not you?)</string>
+    <string name="register_link">Don\'t have an account? Sign Up</string>
     <string name="post_item_title">Post An Item</string>
     <string name="default_button">Default</string>
     <string name="delete_button">Delete</string>

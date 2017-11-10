@@ -37,7 +37,7 @@ public class SignUpActivity extends AppCompatActivity {
     private TextInputEditText passwordConfirmView;
 
 
-    // Firebase instance variables
+    // FireBase instance variables
     private FirebaseAuth Auth;  //firebase authentication object
 
 
@@ -47,7 +47,6 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
 
         emailView =  findViewById(R.id.sign_up_email);
-        usernameView = findViewById(R.id.sign_up_username);
         passwordView =  findViewById(R.id.sign_up_password);
         passwordConfirmView =  findViewById(R.id.sign_up_confirm_password);
 
@@ -63,7 +62,7 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
-        //instance of Firebase authentication object
+        //instance of FireBase authentication object
         Auth = FirebaseAuth.getInstance();
     }
 
