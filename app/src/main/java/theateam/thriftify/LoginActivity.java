@@ -20,12 +20,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import static android.R.attr.password;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private FirebaseAuth Auth; //firebase authentication object
+    private FirebaseAuth mAuth; //firebase authentication object
     // UI reference objects
     private TextInputEditText emailView;
     private TextInputEditText passwordView;
@@ -50,14 +51,22 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        Auth = FirebaseAuth.getInstance();      //get firebase instance and assign create object
+        mAuth = FirebaseAuth.getInstance();      //get firebase instance and assign create object
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        updateUI(currentUser);
+    }
+
 
     // call from sign up link
     public void SignUpNewUser(View v) {
         Intent intent = new Intent(this, theateam.thriftify.SignUpActivity.class);
-        finish();
         startActivity(intent);
+        finish();
     }
 
 
@@ -66,6 +75,13 @@ public class LoginActivity extends AppCompatActivity {
         Login();
     }
 
+    private void updateUI(FirebaseUser user) {
+        if (user != null) {
+            Intent intent = new Intent(this, theateam.thriftify.MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    }
 
     private void Login() {
         String email = emailView.getText().toString();
@@ -74,34 +90,19 @@ public class LoginActivity extends AppCompatActivity {
         if (email.equals("") || password.equals("")) return;
         Toast.makeText(this, getString(R.string.progress_msg), Toast.LENGTH_SHORT).show();
 
-        Auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                Log.d("thiftify", "sign in complete: " + task.isSuccessful());
 
                 if (!task.isSuccessful()){
-                    Log.d("thriftify", "Sign in issue: " + task.getException());
-                    errorAlert(getString(R.string.sign_in_issue));
+                    Log.d("thriftify", "signInWithEmail:failure" + task.getException());
+                    Toast.makeText(LoginActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
                 }else{
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    finish();
-                    startActivity(intent);
+                    Log.d("thriftify", "signInWithEmail:success");
+                    FirebaseUser user =  mAuth.getCurrentUser();
+                    updateUI(user);
                 }
             }
         });
-
-
-
     }
-
-    //dialog box for failed sign up
-    private void errorAlert(String msg){
-        new AlertDialog.Builder(this)
-                .setTitle("Uh oh...")
-                .setMessage(msg)
-                .setPositiveButton(android.R.string.ok,null)
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .show();
-    }
-
 }

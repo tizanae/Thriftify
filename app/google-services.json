@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "290106343357-c8ps9ijpqefliof55toddil4buavpn17.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "theateam.thriftify",
+            "certificate_hash": "42bf074676f6511d9134dd914364061004050170"
+          }
+        },
+        {
           "client_id": "290106343357-t2gkvok8f36g621iqo39ue85hh2nb0ei.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
