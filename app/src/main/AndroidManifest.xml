@@ -37,7 +37,8 @@
         <activity android:name=".PostInfo" />
         <activity android:name=".EditMyProfile" />
         <activity android:name=".PostItemActivity" />
-        <activity android:name=".FinishRegistrationActivity"></activity>
+        <activity android:name=".FinishRegistrationActivity"/>
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity" android:theme="@style/Base.Theme.AppCompat"/>/>
     </application>
 
 </manifest>
