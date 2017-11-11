@@ -86,8 +86,10 @@ public class CategoryViewActivity extends BaseActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Post post = dataSnapshot.getValue(Post.class);
-                        String default_uri = post.picture_uris.values().toArray()[0].toString();
-                        postPreviewAdapter.add(new PostPreview(post.title, default_uri));
+                        if (post.category_key.equals(mCategoryKey)) {
+                            String default_uri = post.picture_uris.values().toArray()[0].toString();
+                            postPreviewAdapter.add(new PostPreview(post.title, default_uri));
+                        }
                     }
 
                     @Override
