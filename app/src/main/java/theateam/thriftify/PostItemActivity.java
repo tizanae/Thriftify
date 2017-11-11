@@ -1,8 +1,11 @@
 package theateam.thriftify;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.text.TextUtils;
 import android.view.View;
@@ -11,36 +14,78 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.geofire.GeoFire;
+import com.firebase.geofire.GeoLocation;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.theartofdev.edmodo.cropper.CropImage;
+
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
 
 
 public class PostItemActivity extends BaseActivity {
 
+    private FirebaseUser mCurrentUser;
+    private DatabaseReference mRootDatabase;
+    private DatabaseReference mGeoFireReference;
+
+    private GeoFire mGeoFire;
+
     private TextView mPostTitle;
     private TextView mPostPrice;
     private TextView mPostDescription;
 
     private String mCategoryKey;
-    private double mLatitude;
-    private double mLongitude;
+    private Location mLastLocation;
 
     private PostItemPictureAdapter adapter;
 
+    protected FusedLocationProviderClient mFusedLocationClient;
+
+    protected ProgressDialog mProgressDialog;
+
     @Override
-    @SuppressWarnings({"MissingPermission"})
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_item);
         getToolbar();
         setBackArrow();
 
+        mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
+        mRootDatabase = FirebaseDatabase.getInstance().getReference();
+        mGeoFireReference = mRootDatabase.child("geo_fire");
+        mGeoFire = new GeoFire(mGeoFireReference);
+
         mCategoryKey = getIntent().getStringExtra("CATEGORY_KEY");
         mPostTitle = (TextView) findViewById(R.id.input_title);
         mPostPrice = (TextView) findViewById(R.id.input_price);
         mPostDescription = (TextView) findViewById(R.id.input_description);
 
+        mProgressDialog = new ProgressDialog(this);
+
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        mFusedLocationClient.getLastLocation()
+                .addOnCompleteListener(this, new OnCompleteListener<Location>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Location> task) {
+                        if (task.isSuccessful() && task.getResult() != null) {
+
+                            mLastLocation = task.getResult();
+
+                        } else {
+                            Toast.makeText(PostItemActivity.this, "Something went wrong", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
         FloatingActionButton uploadPicture = findViewById(R.id.addPictureButton);
         Button saveButton = findViewById(R.id.post_item_btn);
         uploadPicture.setOnClickListener(new View.OnClickListener() {
@@ -84,7 +129,7 @@ public class PostItemActivity extends BaseActivity {
     }
 
     private void postItem() {
-
+        String current_user_id = mCurrentUser.getUid();
         String post_title = mPostTitle.getText().toString();
         String post_price = mPostPrice.getText().toString();
         String post_description = mPostDescription.getText().toString();
@@ -101,14 +146,65 @@ public class PostItemActivity extends BaseActivity {
         }
         if (focusView != null) {
             focusView.requestFocus();
+        } else if (mLastLocation == null) {
+            Toast.makeText(this, "Don't have a location to use", Toast.LENGTH_SHORT).show();
         } else if (adapter.getCount() < 1) {
             Toast.makeText(this, "You must upload a picture.", Toast.LENGTH_LONG).show();
         }
-        ArrayList<Uri> picture_uris = new ArrayList<>();
+        ArrayList<String> picture_uris = new ArrayList<>();
         for (int i = 0; i < adapter.getCount(); i++) {
             Uri uri = adapter.getItem(i);
-            picture_uris.add(uri);
+            picture_uris.add("Test");
         }
+
+        final double lat = mLastLocation.getLatitude();
+        final double lng = mLastLocation.getLongitude();
+
+        final Post newPost = new Post(
+                current_user_id,
+                mCategoryKey,
+                post_title,
+                post_price,
+                post_description,
+                lat,
+                lng,
+                picture_uris
+        );
+
+        final String newPostKey = mRootDatabase.child("posts").push().getKey();
+
+        mProgressDialog.setTitle("Finishing Registration");
+        mProgressDialog.setMessage("Please wait!");
+        mProgressDialog.setCanceledOnTouchOutside(false);
+        mProgressDialog.show();
+
+        mRootDatabase.child("posts").child(newPostKey).setValue(newPost).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(Task<Void> task) {
+                if (task.isSuccessful()) {
+//
+                    mGeoFire.setLocation(newPostKey, new GeoLocation(lat, lng), new GeoFire.CompletionListener() {
+                        @Override
+                        public void onComplete(String key, DatabaseError error) {
+                            mProgressDialog.dismiss();
+                            if (error != null) {
+                                Toast.makeText(PostItemActivity.this, "Something went wrong: " + error.getMessage(), Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(PostItemActivity.this, "LIT", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(PostItemActivity.this, MainActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                finish();
+                                startActivity(intent);
+
+                            }
+                        }
+                    });
+                } else {
+                    Toast.makeText(PostItemActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
 
     }
 
