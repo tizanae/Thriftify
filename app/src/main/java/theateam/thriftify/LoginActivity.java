@@ -1,18 +1,14 @@
 package theateam.thriftify;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,8 +17,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import static android.R.attr.password;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -64,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
 
     // call from sign up link
     public void SignUpNewUser(View v) {
-        Intent intent = new Intent(this, theateam.thriftify.SignUpActivity.class);
+        Intent intent = new Intent(this, RegistrationActivity.class);
         startActivity(intent);
         finish();
     }

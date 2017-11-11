@@ -8,7 +8,7 @@
     <string name="username_label">Username</string>
     <string name="password_label">Password</string>
     <string name="password_confirm_label">Re-Enter Password</string>
-    <string name="Sign_up_label">Sign Up</string>
+    <string name="sign_up_label">Sign Up</string>
     <string name="title_label">Title</string>
     <string name="price_label">Price</string>
     <string name="description_label">Description</string>
@@ -47,4 +47,6 @@
     <string name="default_button">Default</string>
     <string name="delete_button">Delete</string>
     <string name="post_item_button">Post Item</string>
+    <string name="first_name_label">First Name</string>
+    <string name="last_name_label">Last Name</string>
 </resources>

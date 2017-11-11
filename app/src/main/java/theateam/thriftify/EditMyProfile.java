@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.AppCompatTextView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -94,8 +93,8 @@ public class EditMyProfile extends AppCompatActivity {
                     showData(dataSnapshot);
                 } else {
                     //shared preferences username
-                    SharedPreferences prefs = getSharedPreferences(SignUpActivity.APP_PREFS, MODE_PRIVATE);
-                    screenName = prefs.getString(SignUpActivity.SCREEN_NAME_KEY, null);
+                    SharedPreferences prefs = getSharedPreferences(RegistrationActivity.APP_PREFS, MODE_PRIVATE);
+                    screenName = prefs.getString(RegistrationActivity.SCREEN_NAME_KEY, null);
                     TextView screenNameView = findViewById(R.id.user_edit_username);
                     screenNameView.setText(screenName);
                     Log.d("thriftify", "onDataChange: added information to database: \n" +

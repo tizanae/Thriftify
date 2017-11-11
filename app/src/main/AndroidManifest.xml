@@ -27,10 +27,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SignUpActivity"
+            android:name=".RegistrationActivity"
             android:theme="@style/OutsideTheme" />
-        <activity
-            android:name=".MainActivity" />
+        <activity android:name=".MainActivity" />
         <activity
             android:name=".MyAccount"
             android:theme="@style/AppTheme" />
@@ -38,6 +37,7 @@
         <activity android:name=".PostInfo" />
         <activity android:name=".EditMyProfile" />
         <activity android:name=".PostItemActivity" />
+        <activity android:name=".FinishRegistrationActivity"></activity>
     </application>
 
 </manifest>
