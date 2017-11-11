@@ -1,5 +1,6 @@
 package theateam.thriftify;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -31,6 +32,8 @@ public class MyAccount extends BaseActivity {
     private TextView mScreenName;
     private ImageView mProfilePicture;
 
+    private ProgressDialog mRegistrationProgress;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,9 +47,15 @@ public class MyAccount extends BaseActivity {
 
         mScreenName = findViewById(R.id.screen_name);
         mProfilePicture = findViewById(R.id.profile_picture);
+        mRegistrationProgress = new ProgressDialog(this);
+        mRegistrationProgress.setTitle("Loading user profile...");
+        mRegistrationProgress.setMessage("Please wait!");
+        mRegistrationProgress.setCanceledOnTouchOutside(false);
+        mRegistrationProgress.show();
         mUserDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                mRegistrationProgress.dismiss();
                 String first_name = dataSnapshot.child("first_name").getValue().toString();
                 String last_name = dataSnapshot.child("last_name").getValue().toString();
                 String profile_pic_uri = dataSnapshot.child("profile_picture_uri").getValue().toString();
@@ -56,8 +65,6 @@ public class MyAccount extends BaseActivity {
                         .load(profile_pic_uri)
                         .placeholder(R.drawable.profile)
                         .into(mProfilePicture);
-
-
 
             }
 
