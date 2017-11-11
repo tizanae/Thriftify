@@ -3,6 +3,7 @@ package theateam.thriftify;
 import android.net.Uri;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by oflyingturtleo on 11/11/17.
@@ -16,7 +17,9 @@ public class Post {
     public String description;
     public double latitude;
     public double longitude;
-    public ArrayList<String> picture_uris;
+    public HashMap<String, String> picture_uris;
+
+    public Post() {}
 
     public Post(
             String user_id,
@@ -26,7 +29,7 @@ public class Post {
             String description,
             double latitude,
             double longitude,
-            ArrayList<String> picture_uris
+            HashMap<String, String> picture_uris
     ) {
         this.user_id = user_id;
         this.category_key = category_key;

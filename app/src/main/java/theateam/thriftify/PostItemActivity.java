@@ -21,6 +21,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -29,6 +32,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Random;
 
 
 public class PostItemActivity extends BaseActivity {
@@ -36,6 +41,7 @@ public class PostItemActivity extends BaseActivity {
     private FirebaseUser mCurrentUser;
     private DatabaseReference mRootDatabase;
     private DatabaseReference mGeoFireReference;
+    private StorageReference mRootStorage;
 
     private GeoFire mGeoFire;
 
@@ -61,6 +67,7 @@ public class PostItemActivity extends BaseActivity {
 
         mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
         mRootDatabase = FirebaseDatabase.getInstance().getReference();
+        mRootStorage = FirebaseStorage.getInstance().getReference();
         mGeoFireReference = mRootDatabase.child("geo_fire");
         mGeoFire = new GeoFire(mGeoFireReference);
 
@@ -151,10 +158,10 @@ public class PostItemActivity extends BaseActivity {
         } else if (adapter.getCount() < 1) {
             Toast.makeText(this, "You must upload a picture.", Toast.LENGTH_LONG).show();
         }
-        ArrayList<String> picture_uris = new ArrayList<>();
+        final ArrayList<Uri> picture_uris = new ArrayList<>();
         for (int i = 0; i < adapter.getCount(); i++) {
             Uri uri = adapter.getItem(i);
-            picture_uris.add("Test");
+            picture_uris.add(uri);
         }
 
         final double lat = mLastLocation.getLatitude();
@@ -168,10 +175,11 @@ public class PostItemActivity extends BaseActivity {
                 post_description,
                 lat,
                 lng,
-                picture_uris
+                new HashMap<String, String>()
         );
 
         final String newPostKey = mRootDatabase.child("posts").push().getKey();
+
 
         mProgressDialog.setTitle("Finishing Registration");
         mProgressDialog.setMessage("Please wait!");
@@ -182,7 +190,24 @@ public class PostItemActivity extends BaseActivity {
             @Override
             public void onComplete(Task<Void> task) {
                 if (task.isSuccessful()) {
-//
+                    for (Uri pic_uri: picture_uris) {
+
+                        StorageReference imagePath = mRootStorage.child("post_images").child(newPostKey).child(random() + ".jpg");
+
+                        // Sorry for these nested loops...
+
+                        UploadTask uploadTask= imagePath.putFile(pic_uri);
+                        uploadTask.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    String download_uri = task.getResult().getDownloadUrl().toString();
+                                    mRootDatabase.child("posts").child(newPostKey).child("picture_uris").push().setValue(download_uri);
+                                }
+                            }
+                        });
+
+                    }
                     mGeoFire.setLocation(newPostKey, new GeoLocation(lat, lng), new GeoFire.CompletionListener() {
                         @Override
                         public void onComplete(String key, DatabaseError error) {
@@ -195,7 +220,6 @@ public class PostItemActivity extends BaseActivity {
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 finish();
                                 startActivity(intent);
-
                             }
                         }
                     });
@@ -208,4 +232,16 @@ public class PostItemActivity extends BaseActivity {
 
     }
 
+    // https://stackoverflow.com/questions/12116092/android-random-string-generator
+    public static String random() {
+        Random generator = new Random();
+        StringBuilder randomStringBuilder = new StringBuilder();
+        int randomLength = generator.nextInt(10);
+        char tempChar;
+        for (int i = 0; i < randomLength; i++){
+            tempChar = (char) (generator.nextInt(96) + 32);
+            randomStringBuilder.append(tempChar);
+        }
+        return randomStringBuilder.toString();
+    }
 }
