@@ -54,7 +54,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                                     intent = new Intent(BaseActivity.this, MainActivity.class);
                                     break;
                                 case 2:
-                                    intent = new Intent(BaseActivity.this, PostItemActivity.class);
+                                    intent = new Intent(BaseActivity.this, CreatePost.class);
                                     break;
                                 case 4:
                                     intent = new Intent(BaseActivity.this, MyAccount.class);

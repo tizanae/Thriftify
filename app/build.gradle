@@ -20,7 +20,6 @@ android {
 }
 
 dependencies {
-    implementation 'com.google.firebase:firebase-storage:11.6.0'
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
@@ -34,6 +33,7 @@ dependencies {
     compile 'com.google.firebase:firebase-core:11.6.0'
     compile 'com.google.firebase:firebase-database:11.6.0'
     compile 'com.google.firebase:firebase-auth:11.6.0'
+    compile 'com.google.firebase:firebase-storage:11.6.0'
     compile 'com.synnapps:carouselview:0.1.4'
     compile('com.mikepenz:materialdrawer:5.2.0@aar') {
         transitive = true
@@ -41,6 +41,7 @@ dependencies {
     compile 'com.mikepenz:google-material-typeface:3.0.1.2.original@aar'
     compile 'com.theartofdev.edmodo:android-image-cropper:2.5.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.google.android.gms:play-services-location:11.6.0'
     compile 'com.firebaseui:firebase-ui-database:3.1.0'
     testCompile 'junit:junit:4.12'
 }

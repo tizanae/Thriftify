@@ -49,4 +49,6 @@
     <string name="post_item_button">Post Item</string>
     <string name="first_name_label">First Name</string>
     <string name="last_name_label">Last Name</string>
+    <string name="latitude_label">Latitude</string>
+    <string name="longitude_label">Longitude</string>
 </resources>

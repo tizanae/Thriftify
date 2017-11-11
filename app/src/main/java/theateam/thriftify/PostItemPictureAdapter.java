@@ -2,6 +2,8 @@ package theateam.thriftify;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,20 +12,23 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
-public class PostItemPictureAdapter extends ArrayAdapter<Bitmap> {
+public class PostItemPictureAdapter extends ArrayAdapter<Uri> {
     private static class ViewHolder {
         ImageView imageView;
     }
 
-    public PostItemPictureAdapter(Context context, ArrayList<Bitmap> bitmaps) {
-        super(context, R.layout.post_item_picture, bitmaps);
+    public PostItemPictureAdapter(Context context, ArrayList<Uri> picture_uris) {
+        super(context, R.layout.post_item_picture, picture_uris);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final Bitmap bitmap = getItem(position);
+
+        final Uri uri = getItem(position);
         ViewHolder viewHolder;
 
         if (convertView == null) {
@@ -40,11 +45,12 @@ public class PostItemPictureAdapter extends ArrayAdapter<Bitmap> {
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                remove(bitmap);
+                remove(uri);
                 notifyDataSetChanged();
             }
         });
-        viewHolder.imageView.setImageBitmap(bitmap);
+        Picasso.with(getContext()).load(uri).into(viewHolder.imageView);
+
 
         return convertView;
     }
