@@ -3,19 +3,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
     <include
         layout="@layout/toolbar_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/toolbar" />
-
+    <TextView
+        android:id="@android:id/empty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/secondary_dark"
+        android:textSize="18sp"
+        android:text="@string/no_chats" />
     <ListView
         android:id="@+id/active_chats"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/toolbar" />
-
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true" />
+    </LinearLayout>
 
 </RelativeLayout>
