@@ -81,5 +81,10 @@ public class MyAccount extends BaseActivity {
         startActivity(intent);
         finish();
     }
+    public void contactUser(View v){
+        Intent intent = new Intent(MyAccount.this, Chat.class);
+        startActivity(intent);
+        finish();
+    }
 }
 
