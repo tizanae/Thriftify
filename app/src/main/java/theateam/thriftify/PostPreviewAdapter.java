@@ -86,6 +86,7 @@ import java.util.List;
 //}
 
 public class PostPreviewAdapter extends ArrayAdapter<PostPreview> {
+
     private static class ViewHolder {
         TextView title;
         ImageView thumbnail;
@@ -127,6 +128,8 @@ public class PostPreviewAdapter extends ArrayAdapter<PostPreview> {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), PostInfo.class);
+                intent.putExtra("CATEGORY_KEY", postPreview.getCategory());
+                intent.putExtra("POST_KEY", postPreview.getKey());
                 getContext().startActivity(intent);
             }
         });

@@ -1,20 +1,18 @@
 package theateam.thriftify;
 
-import android.net.Uri;
-
-/**
- * Created by oflyingturtleo on 10/20/17.
- */
-
 public class PostPreview {
     private String name;
     private String thumbnail;
+    private String key;
+    private String category;
 
     public PostPreview() {}
 
-    public PostPreview(String name, String thumbnail) {
+    public PostPreview(String name, String thumbnail, String key, String category) {
         this.name = name;
         this.thumbnail = thumbnail;
+        this.key = key;
+        this.category = category;
     }
 
     public String getName() {
@@ -32,4 +30,12 @@ public class PostPreview {
     public void setThumbnail(String thumbnail) {
         this.thumbnail = thumbnail;
     }
+
+    public String getKey() { return key; }
+
+    public void setKey(String key) { this.key = key; }
+
+    public String getCategory() { return this.category; }
+
+    public void setCategory(String category) { this.category = category; }
 }
