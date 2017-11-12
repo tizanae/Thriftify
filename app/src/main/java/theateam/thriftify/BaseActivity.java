@@ -1,8 +1,8 @@
 package theateam.thriftify;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,6 +20,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private Toolbar toolbar;
 
     public Toolbar getToolbar() {
+
         if (toolbar != null) return toolbar;
         toolbar = findViewById(R.id.toolbar);
         if (toolbar == null) {
@@ -58,7 +59,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                                     intent = new Intent(BaseActivity.this, CreatePost.class);
                                     break;
                                 case 3:
-                                    intent = new Intent(BaseActivity.this, Chat.class);
+                                    intent = new Intent(BaseActivity.this, ActiveChatsActivity.class);
                                     break;
                                 case 4:
                                     intent = new Intent(BaseActivity.this, MyAccount.class);

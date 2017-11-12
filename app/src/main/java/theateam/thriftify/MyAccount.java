@@ -2,12 +2,7 @@ package theateam.thriftify;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,9 +15,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
-
-import java.io.IOException;
-import java.net.URL;
 
 public class MyAccount extends BaseActivity {
 
@@ -82,7 +74,7 @@ public class MyAccount extends BaseActivity {
         finish();
     }
     public void contactUser(View v){
-        Intent intent = new Intent(MyAccount.this, Chat.class);
+        Intent intent = new Intent(MyAccount.this, ChatActivity.class);
         startActivity(intent);
         finish();
     }

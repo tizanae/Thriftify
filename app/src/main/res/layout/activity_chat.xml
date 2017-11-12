@@ -1,50 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@color/secondary_light"
-    tools:context="theateam.thriftify.Chat">
-    <ListView
-        android:id="@+id/chat_list_view"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/listFooter"
-        android:layout_alignParentTop="true"
-        android:divider="@null"
-        android:dividerHeight="0dp"
-        android:transcriptMode="alwaysScroll" />
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ededed"
+    tools:context=".ChatActivity">
+
+    <include
+        android:id="@+id/chat_app_bar"
+        layout="@layout/toolbar_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/messages_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/linearLayout"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/chat_app_bar"></android.support.v7.widget.RecyclerView>
 
     <LinearLayout
-        android:id="@+id/listFooter"
-        android:layout_width="fill_parent"
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:background="@android:color/white"
         android:orientation="horizontal"
-        android:gravity="bottom">
-
-        <EditText
-            android:id="@+id/message_capture"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:textColor="@color/black"
-            android:textColorHint="@color/black"
-            android:hint="@string/prompt_msg"
-            android:imeActionLabel="@string/action_send"
-            android:imeOptions="actionUnspecified"
-            android:inputType="textCapSentences|textAutoCorrect"
-            android:maxLines="1"
-            android:gravity="center_horizontal"/>
+        android:weightSum="10">
 
         <ImageButton
-            android:id="@+id/chat_send_button"
-            android:padding="10dp"
-            android:background="@drawable/circle_shape"
+            android:id="@+id/chat_add_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_send"
-            android:contentDescription="@string/action_send"/>
+            android:layout_weight="1"
+            android:alpha="0.5"
+            android:background="@android:color/white"
+            android:padding="10dp"
+            app:srcCompat="@drawable/ic_add_black_24dp" />
+
+        <EditText
+            android:id="@+id/chat_message_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="8"
+            android:background="@android:color/white"
+            android:ems="10"
+            android:hint="Enter Message..."
+            android:inputType="textPersonName"
+            android:paddingBottom="12dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="14dp" />
+
+        <ImageButton
+            android:id="@+id/chat_send_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:alpha="0.5"
+            android:background="@android:color/white"
+            android:padding="10dp"
+            app:srcCompat="@drawable/ic_send_black_24dp" />
     </LinearLayout>
+
+
 </RelativeLayout>

@@ -36,7 +36,6 @@ public class ChatListAdapter extends BaseAdapter {
             mSnapshots.add(dataSnapshot);
             //update listview
             notifyDataSetChanged();
-
         }
 
         @Override
@@ -97,7 +96,7 @@ public class ChatListAdapter extends BaseAdapter {
             view = inflater.inflate(R.layout.single_chat_item, viewGroup, false);
 
             final ViewHolder holder = new ViewHolder();
-            holder.authorName = (TextView) view.findViewById(R.id.sender);
+            holder.authorName = (TextView) view.findViewById(R.id.name_text_layout);
             holder.body = (TextView) view.findViewById(R.id.message);
             holder.params = (LinearLayout.LayoutParams) holder.authorName.getLayoutParams();
             view.setTag(holder);

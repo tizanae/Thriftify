@@ -1,7 +1,10 @@
 package theateam.thriftify;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,12 +30,15 @@ public class PostInfo extends BaseActivity {
     private TextView mTitleView;
     private TextView mPriceView;
     private TextView mDescriptionView;
+    private Button mChat;
 
     private CarouselView mCarouselView;
 
     private ArrayList<String> mImageUris;
 
     private ProgressDialog mLoadingDialog;
+
+    private Post mPost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +57,7 @@ public class PostInfo extends BaseActivity {
         mTitleView = findViewById(R.id.post_title);
         mPriceView = findViewById(R.id.post_price);
         mDescriptionView = findViewById(R.id.post_description);
+        mChat = findViewById(R.id.contact);
 
         mLoadingDialog = new ProgressDialog(this);
         mLoadingDialog.setTitle("Loading item...");
@@ -63,20 +70,28 @@ public class PostInfo extends BaseActivity {
         mRootReference.child("posts").child(mCategoryKey).child(mPostKey).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Post post = dataSnapshot.getValue(Post.class);
+                mPost = dataSnapshot.getValue(Post.class);
                 mLoadingDialog.dismiss();
 //                Toast.makeText(PostInfo.this, "" + post.picture_uris.toString(), Toast.LENGTH_LONG);
-                mImageUris = new ArrayList<>(post.picture_uris.values());
+                mImageUris = new ArrayList<>(mPost.picture_uris.values());
                 mCarouselView.setPageCount(mImageUris.size());
-                mTitleView.setText(post.title);
-                mPriceView.setText(post.price);
-                mDescriptionView.setText(post.description);
+                mTitleView.setText(mPost.title);
+                mPriceView.setText(mPost.price);
+                mDescriptionView.setText(mPost.description);
 
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
+            }
+        });
+        mChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PostInfo.this, ChatActivity.class);
+                intent.putExtra("FROM_USER", mPost.user_id);
+                startActivity(intent);
             }
         });
 
