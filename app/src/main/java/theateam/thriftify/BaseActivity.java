@@ -67,8 +67,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                                 case 5:
                                     FirebaseAuth.getInstance().signOut();
                                     intent = new Intent(BaseActivity.this, LoginActivity.class);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                    finish();
+
                                     break;
                                 case 6:
                                     intent = new Intent(BaseActivity.this, MapsActivity.class);
@@ -77,6 +76,8 @@ public abstract class BaseActivity extends AppCompatActivity {
                             }
                             if (intent != null) {
                                 BaseActivity.this.startActivity(intent);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                finish();
                             }
                         }
                         return false;

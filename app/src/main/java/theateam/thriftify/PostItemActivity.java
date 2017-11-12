@@ -219,6 +219,7 @@ public class PostItemActivity extends BaseActivity {
                     mGeoFire.setLocation(newPostKey, new GeoLocation(lat, lng), new GeoFire.CompletionListener() {
                         @Override
                         public void onComplete(String key, DatabaseError error) {
+
                             mProgressDialog.dismiss();
                             if (error != null) {
                                 Toast.makeText(PostItemActivity.this, "Something went wrong: " + error.getMessage(), Toast.LENGTH_LONG).show();
