@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ActiveChatsActivity extends AppCompatActivity {
+public class ActiveChatsActivity extends BaseActivity {
 
     DatabaseReference mRootDatabase;
     ActiveChatUserAdapter mAdapter;
@@ -30,8 +30,29 @@ public class ActiveChatsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_active_chats);
-        String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        getToolbar();
+        getDrawer();
+
+        final String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
         mRootDatabase = FirebaseDatabase.getInstance().getReference();
+//        ValueEventListener responseListener = new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                if (dataSnapshot.exists() && dataSnapshot.getValue() != null) {
+//
+//                } else {
+//                    // Do stuff
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        };
+
+//        mRootDatabase.child("messages").child(user_id).addListenerForSingleValueEvent(responseListener);
         mRootDatabase
                 .child("messages")
                 .child(user_id)
@@ -67,6 +88,7 @@ public class ActiveChatsActivity extends AppCompatActivity {
         mAdapter = new ActiveChatUserAdapter(this, new ArrayList<ActiveChatUser>());
         listView.setAdapter(mAdapter);
     }
+
     public void getUser(final String user_id) {
         mRootDatabase.child("users").child(user_id).addValueEventListener(new ValueEventListener() {
             @Override
