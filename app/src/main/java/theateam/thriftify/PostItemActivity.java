@@ -58,20 +58,23 @@ public class PostItemActivity extends BaseActivity {
 
     protected ProgressDialog mProgressDialog;
 
+    // TODO: FIXME: PERMISSIONS!
     @Override
+    @SuppressWarnings({"MissingPermission"})
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_item);
         getToolbar();
         setBackArrow();
+        mCategoryKey = getIntent().getStringExtra("CATEGORY_KEY");
 
         mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
         mRootDatabase = FirebaseDatabase.getInstance().getReference();
         mRootStorage = FirebaseStorage.getInstance().getReference();
-        mGeoFireReference = mRootDatabase.child("geo_fire");
+        mGeoFireReference = mRootDatabase.child("geo_fire").child(mCategoryKey);
         mGeoFire = new GeoFire(mGeoFireReference);
 
-        mCategoryKey = getIntent().getStringExtra("CATEGORY_KEY");
+
         mPostTitle = (TextView) findViewById(R.id.input_title);
         mPostPrice = (TextView) findViewById(R.id.input_price);
         mPostDescription = (TextView) findViewById(R.id.input_description);
@@ -178,7 +181,7 @@ public class PostItemActivity extends BaseActivity {
                 new HashMap<String, String>()
         );
 
-        final String newPostKey = mRootDatabase.child("posts").push().getKey();
+        final String newPostKey = mRootDatabase.child("posts").child(mCategoryKey).push().getKey();
 
 
         mProgressDialog.setTitle("Finishing Registration");
@@ -186,7 +189,12 @@ public class PostItemActivity extends BaseActivity {
         mProgressDialog.setCanceledOnTouchOutside(false);
         mProgressDialog.show();
 
-        mRootDatabase.child("posts").child(newPostKey).setValue(newPost).addOnCompleteListener(new OnCompleteListener<Void>() {
+        mRootDatabase
+                .child("posts")
+                .child(mCategoryKey)
+                .child(newPostKey)
+                .setValue(newPost)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(Task<Void> task) {
                 if (task.isSuccessful()) {
@@ -202,7 +210,7 @@ public class PostItemActivity extends BaseActivity {
                             public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                                 if (task.isSuccessful()) {
                                     String download_uri = task.getResult().getDownloadUrl().toString();
-                                    mRootDatabase.child("posts").child(newPostKey).child("picture_uris").push().setValue(download_uri);
+                                    mRootDatabase.child("posts").child(mCategoryKey).child(newPostKey).child("picture_uris").push().setValue(download_uri);
                                 }
                             }
                         });

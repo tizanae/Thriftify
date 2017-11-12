@@ -39,16 +39,19 @@ public class CategoryViewActivity extends BaseActivity {
     private Location mLastLocation;
     private PostPreviewAdapter postPreviewAdapter;
 
+    // TODO: FIXME: PERMISSIONS!
     @Override
+    @SuppressWarnings({"MissingPermission"})
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_view);
 
         getToolbar();
         setBackArrow();
-        mRootDatabase = FirebaseDatabase.getInstance().getReference();
-        mGeoFire = new GeoFire(mRootDatabase.child("geo_fire"));
         mCategoryKey = getIntent().getStringExtra("CATEGORY_KEY");
+        mRootDatabase = FirebaseDatabase.getInstance().getReference();
+        mGeoFire = new GeoFire(mRootDatabase.child("geo_fire").child(mCategoryKey));
+
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         mFusedLocationClient.getLastLocation()
@@ -74,21 +77,22 @@ public class CategoryViewActivity extends BaseActivity {
     }
 
     private void populateView() {
-        final DatabaseReference postRef = mRootDatabase.child("posts");
+        final DatabaseReference postRef = mRootDatabase.child("posts").child(mCategoryKey);
         GeoQuery geoQuery = mGeoFire.queryAtLocation(
                 new GeoLocation(mLastLocation.getLatitude(), mLastLocation.getLongitude()),
                 5
         );
+        // TODO: FIXME: UPDATE UI AFTER QUERY READY, SO YOU CAN SORT AND STUFF
         geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
             @Override
-            public void onKeyEntered(String key, GeoLocation location) {
+            public void onKeyEntered(final String key, GeoLocation location) {
                 postRef.child(key).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Post post = dataSnapshot.getValue(Post.class);
                         if (post.category_key.equals(mCategoryKey)) {
                             String default_uri = post.picture_uris.values().toArray()[0].toString();
-                            postPreviewAdapter.add(new PostPreview(post.title, default_uri));
+                            postPreviewAdapter.add(new PostPreview(post.title, default_uri, key, mCategoryKey));
                         }
                     }
 
