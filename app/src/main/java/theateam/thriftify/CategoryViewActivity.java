@@ -141,7 +141,7 @@ public class CategoryViewActivity extends BaseActivity {
         final DatabaseReference postRef = mRootDatabase.child("posts").child(mCategoryKey);
         GeoQuery geoQuery = mGeoFire.queryAtLocation(
                 new GeoLocation(mLastLocation.getLatitude(), mLastLocation.getLongitude()),
-                5
+                100
         );
         // TODO: FIXME: UPDATE UI AFTER QUERY READY, SO YOU CAN SORT AND STUFF
         geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
