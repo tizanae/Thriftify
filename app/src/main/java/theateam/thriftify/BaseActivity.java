@@ -40,7 +40,8 @@ public abstract class BaseActivity extends AppCompatActivity {
                         new PrimaryDrawerItem().withName(R.string.drawer_item_post_item).withIdentifier(2),
                         new PrimaryDrawerItem().withName(R.string.drawer_item_messages).withIdentifier(3),
                         new PrimaryDrawerItem().withName(R.string.drawer_item_my_account).withIdentifier(4),
-                        new PrimaryDrawerItem().withName(R.string.drawer_item_log_out).withIdentifier(5)
+                        new PrimaryDrawerItem().withName(R.string.drawer_item_log_out).withIdentifier(5),
+                        new PrimaryDrawerItem().withName("Maps Test").withIdentifier(6)
                 )
                 .withSelectedItem(-1)
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
@@ -64,6 +65,9 @@ public abstract class BaseActivity extends AppCompatActivity {
                                     intent = new Intent(BaseActivity.this, LoginActivity.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                     finish();
+                                    break;
+                                case 6:
+                                    intent = new Intent(BaseActivity.this, MapsActivity.class);
                                     break;
                                 default:
                             }
