@@ -91,7 +91,7 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
         }
 
         // Retrieve the content view that renders the map.
-        setContentView(R.layout.activity_maps);
+        setContentView(R.layout.activity_maps2);
 
         // Construct a GeoDataClient.
         mGeoDataClient = Places.getGeoDataClient(this, null);
