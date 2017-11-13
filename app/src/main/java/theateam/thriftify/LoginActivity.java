@@ -22,7 +22,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = LoginActivity.class.getSimpleName();
 
-    private FirebaseAuth mAuth; //firebase authentication object
+    //firebase authentication object
+    private FirebaseAuth mAuth;
     // UI reference objects
     private TextInputEditText emailView;
     private TextInputEditText passwordView;
@@ -91,10 +92,10 @@ public class LoginActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
 
                 if (!task.isSuccessful()){
-                    Log.d("thriftify", "signInWithEmail:failure" + task.getException());
+                    Log.d(TAG, "signInWithEmail:failure" + task.getException());
                     Toast.makeText(LoginActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
                 }else{
-                    Log.d("thriftify", "signInWithEmail:success");
+                    Log.d(TAG, "signInWithEmail:success");
                     FirebaseUser user =  mAuth.getCurrentUser();
                     updateUI(user);
                 }

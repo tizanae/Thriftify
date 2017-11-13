@@ -2,9 +2,7 @@ package theateam.thriftify;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,8 +25,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
-
-import java.io.IOException;
 
 
 public class FinishRegistrationActivity extends AppCompatActivity {
@@ -130,22 +126,26 @@ public class FinishRegistrationActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                     mRegistrationProgress.dismiss();
                     if (task.isSuccessful()) {
-                        String downloadUri = task.getResult().getDownloadUrl().toString();
-                        User user = new User(userId, firstName, lastName, downloadUri);
-                        mDatabase.child("users").child(userId).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                mRegistrationProgress.dismiss();
-                                if (task.isSuccessful()) {
-                                    Intent intent = new Intent(FinishRegistrationActivity.this, MainActivity.class);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                    finish();
-                                    startActivity(intent);
-                                } else {
-                                    Toast.makeText(FinishRegistrationActivity.this, "", Toast.LENGTH_SHORT).show();
+                        if (task.getResult() != null && task.getResult().getDownloadUrl() != null) {
+                            Log.i(TAG, "Received thumbnail uri.");
+                            String downloadUri = task.getResult().getDownloadUrl().toString();
+                            User user = new User(userId, firstName, lastName, downloadUri);
+                            mDatabase.child("users").child(userId).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    mRegistrationProgress.dismiss();
+                                    if (task.isSuccessful()) {
+                                        Intent intent = new Intent(FinishRegistrationActivity.this, MainActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        finish();
+                                        startActivity(intent);
+                                    } else {
+                                        Toast.makeText(FinishRegistrationActivity.this, "", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        }
+
 
                     } else {
                         Log.e(TAG, "putFile: Failed, " + task.getException());
