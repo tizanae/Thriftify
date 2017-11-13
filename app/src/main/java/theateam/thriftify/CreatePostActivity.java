@@ -2,16 +2,14 @@ package theateam.thriftify;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
@@ -28,11 +26,14 @@ public class CreatePostActivity extends BaseActivity {
         setContentView(R.layout.activity_create_post);
 
         getToolbar();
-        getDrawer();
+        setDrawer();
 
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        loadCategories();
+    }
 
-        Query categoriesQuery = databaseReference.child("categories").orderByKey();
+    private void loadCategories() {
+        Log.i(TAG, "Loading Categories");
+        Query categoriesQuery = getRootDatabase().child("categories").orderByKey();
 
         categoriesQuery.addValueEventListener(new ValueEventListener() {
             @Override
@@ -62,17 +63,18 @@ public class CreatePostActivity extends BaseActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(CreatePostActivity.this, "Error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "Load categories error, " + databaseError.getDetails());
             }
         });
-
-
     }
 
     private void openCategory(HashMap<String, String> categoryKeys, String categoryName) {
+        Log.i(TAG, "Opening Category, " + categoryName);
+
         Intent intent = new Intent(this, PostItemActivity.class);
         String categoryKey = categoryKeys.get(categoryName);
         intent.putExtra("CATEGORY_KEY", categoryKey);
+
         startActivity(intent);
     }
 }

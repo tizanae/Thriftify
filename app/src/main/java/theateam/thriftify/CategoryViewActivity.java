@@ -69,12 +69,17 @@ public class CategoryViewActivity extends BaseActivity {
     }
 
     private void populateView() {
+        Log.i(TAG, "Populating the view");
 
         final DatabaseReference postRef = getRootDatabase().child("posts").child(mCategoryKey);
+
+        // Make geo query 150km away
         GeoQuery geoQuery = mGeoFire.queryAtLocation(
                 new GeoLocation(mLastLocation.getLatitude(), mLastLocation.getLongitude()),
                 150
         );
+
+        // Keep track of all keys in the category that are returned.
         final ArrayList<String> catKeys = new ArrayList<>();
 
         geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
@@ -104,8 +109,7 @@ public class CategoryViewActivity extends BaseActivity {
                             Post post = dataSnapshot.getValue(Post.class);
 
 
-                            if (mCategoryKey.equals(post.getCategoryKey())) {
-                                Log.i(TAG, "ADDING A POST");
+                            if (post != null && mCategoryKey.equals(post.getCategoryKey())) {
                                 postPreviewAdapter.add(post);
                             }
                         }
@@ -120,7 +124,7 @@ public class CategoryViewActivity extends BaseActivity {
 
             @Override
             public void onGeoQueryError(DatabaseError error) {
-
+                Log.e(TAG, error.getDetails());
             }
         });
     }

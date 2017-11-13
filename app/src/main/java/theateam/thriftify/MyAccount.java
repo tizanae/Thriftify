@@ -3,25 +3,19 @@ package theateam.thriftify;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 public class MyAccount extends BaseActivity {
 
     private static final String TAG = MyAccount.class.getSimpleName();
-
-    private DatabaseReference mUserDatabase;
-    private FirebaseUser mCurrentUser;
 
     private TextView mScreenName;
     private ImageView mProfilePicture;
@@ -33,11 +27,8 @@ public class MyAccount extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_account);
         getToolbar();
-        getDrawer();
+        setDrawer();
 
-        mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
-        String uid = mCurrentUser.getUid();
-        mUserDatabase = FirebaseDatabase.getInstance().getReference().child("users").child(uid);
 
         mScreenName = findViewById(R.id.screen_name);
         mProfilePicture = findViewById(R.id.profile_picture);
@@ -46,14 +37,25 @@ public class MyAccount extends BaseActivity {
         mRegistrationProgress.setMessage("Please wait!");
         mRegistrationProgress.setCanceledOnTouchOutside(false);
         mRegistrationProgress.show();
-        mUserDatabase.addValueEventListener(new ValueEventListener() {
+
+        fetchUserProfile();
+
+    }
+
+    public void fetchUserProfile() {
+        Log.i(TAG, "Getting User Profile");
+        String uid = getCurrentUser().getUid();
+        getRootDatabase()
+                .child("users")
+                .child(uid)
+                .addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mRegistrationProgress.dismiss();
                 User currentUser = dataSnapshot.getValue(User.class);
-//                String first_name = dataSnapshot.child("first_name").getValue().toString();
-//                String last_name = dataSnapshot.child("last_name").getValue().toString();
-//                String profile_pic_uri = dataSnapshot.child("profile_picture_uri").getValue().toString();
+                if (currentUser == null) return;
+
+                Log.i(TAG, "User profile fetched.");
                 String fullName = currentUser.getFirstName() + " " + currentUser.getLastName();
                 mScreenName.setText(fullName);
                 Picasso.with(MyAccount.this)
@@ -65,17 +67,20 @@ public class MyAccount extends BaseActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                Log.e(TAG, "Database error: " + databaseError.getDetails());
             }
         });
 
     }
 
+
     public void EditUser(View v) {
+        Log.i(TAG, "Starting edit user activity");
         Intent intent = new Intent(MyAccount.this, EditMyProfile.class);
         startActivity(intent);
     }
     public void contactUser(View v){
+        Log.i(TAG, "Starting contact user activity");
         Intent intent = new Intent(MyAccount.this, ChatActivity.class);
         startActivity(intent);
     }

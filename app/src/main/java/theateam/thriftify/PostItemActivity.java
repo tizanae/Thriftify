@@ -192,7 +192,7 @@ public class PostItemActivity extends BaseActivity {
                         StorageReference imagePath = getRootStorage()
                                 .child("post_images")
                                 .child(newPostKey)
-                                .child(generateRandomString(10) + ".jpg");
+                                .child(generateRandomString() + ".jpg");
 
                         // Sorry for these nested loops...
 

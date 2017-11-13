@@ -1,21 +1,21 @@
 package theateam.thriftify;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 
 import java.util.ArrayList;
@@ -29,16 +29,10 @@ public class ChatActivity extends BaseActivity {
 
     private String mCurrentUserId;
     private String mFromUserId;
-    private String mChatId;
 
-    private ImageButton mChatAddBtn;
-    private ImageButton mChatSendBtn;
     private EditText mChatMessageView;
 
-    private RecyclerView mMessagesList;
-
     private final List<Message> messagesList = new ArrayList<>();
-    private LinearLayoutManager mLinearLayout;
     private MessageAdapter mAdapter;
 
     @Override
@@ -50,33 +44,24 @@ public class ChatActivity extends BaseActivity {
         getToolbar();
         setBackArrow();
 
-        mCurrentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        mCurrentUserId = getCurrentUser().getUid();
         mFromUserId = getIntent().getStringExtra("FROM_USER");
-        int compare = mCurrentUserId.compareTo(mFromUserId);
 
-        if (compare <= 0) {
-            mChatId = mCurrentUserId + mFromUserId;
-        } else {
-            mChatId = mFromUserId + mCurrentUserId;
-        }
+//        ImageButton chatAddBtn = findViewById(R.id.chat_add_btn);
+        ImageButton chatSendBtn = findViewById(R.id.chat_send_btn);
+        mChatMessageView = findViewById(R.id.chat_message_view);
 
-        mChatAddBtn = (ImageButton) findViewById(R.id.chat_add_btn);
-        mChatSendBtn = (ImageButton) findViewById(R.id.chat_send_btn);
-        mChatMessageView = (EditText) findViewById(R.id.chat_message_view);
-
+        // Set Up Recycler View
         mAdapter = new MessageAdapter(messagesList, mCurrentUserId);
-
-        mMessagesList = (RecyclerView) findViewById(R.id.messages_list);
-        mLinearLayout = new LinearLayoutManager(this);
-
-        mMessagesList.setHasFixedSize(true);
-        mMessagesList.setLayoutManager(mLinearLayout);
-
-        mMessagesList.setAdapter(mAdapter);
+        RecyclerView messageList = findViewById(R.id.messages_list);
+        LinearLayoutManager linearLayout = new LinearLayoutManager(this);
+        messageList.setHasFixedSize(true);
+        messageList.setLayoutManager(linearLayout);
+        messageList.setAdapter(mAdapter);
 
         loadMessages();
 
-        mChatSendBtn.setOnClickListener(new View.OnClickListener() {
+        chatSendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sendMessage();
@@ -85,15 +70,17 @@ public class ChatActivity extends BaseActivity {
     }
 
     private void loadMessages() {
-
-        getRootDatabase().child("messages").child(mCurrentUserId).child(mFromUserId).addChildEventListener(new ChildEventListener() {
+        Log.i(TAG, "Loading messages");
+        getRootDatabase()
+                .child("messages")
+                .child(mCurrentUserId)
+                .child(mFromUserId)
+                .addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
                 Message message = dataSnapshot.getValue(Message.class);
                 messagesList.add(message);
                 mAdapter.notifyDataSetChanged();
-
             }
 
             @Override
@@ -113,7 +100,7 @@ public class ChatActivity extends BaseActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                Log.e(TAG, "Load messages cancelled, " + databaseError.getDetails());
             }
         });
 
@@ -121,39 +108,34 @@ public class ChatActivity extends BaseActivity {
 
     private void sendMessage() {
 
-
+        Log.i(TAG, "Sending a message");
         String message = mChatMessageView.getText().toString();
 
         if(!TextUtils.isEmpty(message)){
 
 
-            String current_user_ref = "messages/" + mCurrentUserId + "/" + mFromUserId;
-            String chat_user_ref = "messages/" + mFromUserId + "/" + mCurrentUserId;
+            String currentUserRef = "messages/" + mCurrentUserId + "/" + mFromUserId;
+            String fromUserRef = "messages/" + mFromUserId + "/" + mCurrentUserId;
 
-            DatabaseReference user_message_push = getRootDatabase().child("messages")
+            DatabaseReference messagePush = getRootDatabase().child("messages")
                     .child(mCurrentUserId).child(mFromUserId).push();
 
-            String push_id = user_message_push.getKey();
+            String msgId = messagePush.getKey();
             Map<String, Object> messageMap = new HashMap<>();
             messageMap.put("message", message);
             messageMap.put("timestamp", ServerValue.TIMESTAMP);
             messageMap.put("from", mCurrentUserId);
 
             Map<String, Object> messageUserMap = new HashMap<>();
-            messageUserMap.put(current_user_ref + "/" + push_id, messageMap);
-            messageUserMap.put(chat_user_ref + "/" + push_id, messageMap);
+            messageUserMap.put(currentUserRef + "/" + msgId, messageMap);
+            messageUserMap.put(fromUserRef + "/" + msgId, messageMap);
 
             mChatMessageView.setText("");
 
-            getRootDatabase().updateChildren(messageUserMap, new DatabaseReference.CompletionListener() {
+            getRootDatabase().updateChildren(messageUserMap).addOnFailureListener(new OnFailureListener() {
                 @Override
-                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-
-                    if(databaseError != null){
-
-
-                    }
-
+                public void onFailure(@NonNull Exception e) {
+                    Log.e(TAG, "Send message failed, " + e.getMessage());
                 }
             });
         }

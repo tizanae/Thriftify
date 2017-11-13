@@ -1,5 +1,6 @@
 package theateam.thriftify;
 
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class User {
     private String userId;
     private String firstName;

@@ -15,7 +15,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-
+@SuppressWarnings("WeakerAccess")
 public class PostPreviewAdapter extends ArrayAdapter<Post> {
 
     private static class ViewHolder {
@@ -30,10 +30,11 @@ public class PostPreviewAdapter extends ArrayAdapter<Post> {
 
     @Override
     @NonNull
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
 
         final Post post = getItem(position);
         ViewHolder viewHolder;
+        if (post == null) return convertView;
 
         if (convertView == null) {
             viewHolder = new ViewHolder();
@@ -47,13 +48,10 @@ public class PostPreviewAdapter extends ArrayAdapter<Post> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
+        convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), PostInfoActivity.class);
-                intent.putExtra("CATEGORY_KEY", post.getCategoryKey());
-                intent.putExtra("POST_KEY", post.getPostKey());
-                getContext().startActivity(intent);
+                postInfo(post);
             }
         });
         if (post.getPictures() != null) {
@@ -65,4 +63,12 @@ public class PostPreviewAdapter extends ArrayAdapter<Post> {
 
         return convertView;
     }
+
+    private void postInfo(Post post) {
+        Intent intent = new Intent(getContext(), PostInfoActivity.class);
+        intent.putExtra("CATEGORY_KEY", post.getCategoryKey());
+        intent.putExtra("POST_KEY", post.getPostKey());
+        getContext().startActivity(intent);
+    }
+
 }

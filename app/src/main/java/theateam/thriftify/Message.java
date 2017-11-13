@@ -1,5 +1,6 @@
 package theateam.thriftify;
 
+@SuppressWarnings({ "unused", "WeakerAccess" })
 public class Message {
     private String message;
     private String from;

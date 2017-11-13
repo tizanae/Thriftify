@@ -36,12 +36,15 @@ public abstract class BaseActivity extends AppCompatActivity {
             return null;
         }
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
+
         return mToolbar;
     }
 
-    public Drawer getDrawer() {
-        if (mToolbar == null || mDrawer != null) return mDrawer;
+    public void setDrawer() {
+        if (mToolbar == null || mDrawer != null) return;
         mDrawer = new DrawerBuilder()
                 .withActivity(this)
                 .withToolbar(mToolbar)
@@ -94,7 +97,6 @@ public abstract class BaseActivity extends AppCompatActivity {
                     }
                 })
                 .build();
-        return mDrawer;
     }
 
     public FirebaseUser getCurrentUser() {
@@ -150,10 +152,10 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     // https://stackoverflow.com/questions/12116092/android-random-string-generator
-    public static String generateRandomString(int maxLength) {
+    public static String generateRandomString() {
         Random generator = new Random();
         StringBuilder randomStringBuilder = new StringBuilder();
-        int randomLength = generator.nextInt(maxLength);
+        int randomLength = generator.nextInt(10);
         char tempChar;
         for (int i = 0; i < randomLength; i++){
             tempChar = (char) (generator.nextInt(96) + 32);

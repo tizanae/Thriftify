@@ -26,7 +26,7 @@ public class MainActivity extends BaseActivity {
 
         checkAuthenticated();
         getToolbar();
-        getDrawer();
+        setDrawer();
 
         ValueEventListener categoriesEventListener = new ValueEventListener() {
             @Override

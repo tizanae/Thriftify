@@ -1,6 +1,7 @@
 package theateam.thriftify;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -23,9 +24,8 @@ public class ActiveChatsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_active_chats);
 
-        checkAuthenticated();
         getToolbar();
-        getDrawer();
+        setDrawer();
 
         ChildEventListener activeUserChatsListener = new ChildEventListener() {
             @Override
@@ -46,6 +46,8 @@ public class ActiveChatsActivity extends BaseActivity {
             @Override
             public void onCancelled(DatabaseError databaseError) {}
         };
+
+        Log.i(TAG, "onCreate: Retrieving list of users current user is chatting with.");
 
         getRootDatabase()
                 .child("messages")

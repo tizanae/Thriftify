@@ -3,6 +3,7 @@ package theateam.thriftify;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -19,12 +20,11 @@ import java.util.ArrayList;
 
 public class PostInfoActivity extends BaseActivity {
 
-
+    private static final String TAG = PostInfoActivity.class.getSimpleName();
 
     private TextView mTitleView;
     private TextView mPriceView;
     private TextView mDescriptionView;
-    private Button mChat;
 
     private CarouselView mCarouselView;
 
@@ -49,7 +49,7 @@ public class PostInfoActivity extends BaseActivity {
         mTitleView = findViewById(R.id.post_title);
         mPriceView = findViewById(R.id.post_price);
         mDescriptionView = findViewById(R.id.post_description);
-        mChat = findViewById(R.id.contact);
+        Button mChat = findViewById(R.id.contact);
 
         mLoadingDialog = new ProgressDialog(this);
         mLoadingDialog.setTitle("Loading item...");
@@ -58,6 +58,8 @@ public class PostInfoActivity extends BaseActivity {
         mLoadingDialog.show();
 
         mCarouselView.setImageListener(imageListener);
+
+        Log.i(TAG, "Loading Post");
 
         getRootDatabase().child("posts").child(categoryKey).child(postKey).addValueEventListener(new ValueEventListener() {
             @Override
@@ -74,7 +76,7 @@ public class PostInfoActivity extends BaseActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                Log.e(TAG, "Loading post cancelled, " + databaseError.getDetails());
             }
         });
         mChat.setOnClickListener(new View.OnClickListener() {
