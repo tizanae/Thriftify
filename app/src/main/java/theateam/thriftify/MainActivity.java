@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.places.Places;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -56,9 +57,6 @@ import java.util.Map;
 
 public class MainActivity extends BaseActivity {
 
-    //To get specific locations
-    //private TextView get_place;
-    //int PLACE_PICKER_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,6 +123,8 @@ public class MainActivity extends BaseActivity {
         }); */
 
     }
+
+
     /*
     //For choosing locations
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
