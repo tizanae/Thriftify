@@ -2,8 +2,8 @@ package theateam.thriftify;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -17,6 +17,8 @@ import java.util.HashMap;
 
 public class MainActivity extends BaseActivity {
 
+    private static final String TAG = MainActivity.class.getSimpleName();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,13 +30,22 @@ public class MainActivity extends BaseActivity {
         ValueEventListener categoriesEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d(TAG, "onDataChange: retrieved categories");
+
+                // Holds Key/Value Pairs for categories in db
                 final HashMap<String, String> categoryKeys = new HashMap<>();
+
+                // Hold Values from db
                 final ArrayList<String> categories = new ArrayList<>();
+
+                // Reverse Key value pairs to search later
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String category = snapshot.getValue(String.class);
                     categoryKeys.put(category, snapshot.getKey());
                     categories.add(category);
                 }
+
+                // Set up ListView for categories
                 final ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(
                         MainActivity.this,
                         R.layout.category_item,
@@ -53,7 +64,7 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                Log.e(TAG, databaseError.getDetails());
             }
         };
 
@@ -67,8 +78,13 @@ public class MainActivity extends BaseActivity {
 
     private void openCategory(HashMap<String, String> categoryKeys, String categoryName) {
         Intent intent = new Intent(this, theateam.thriftify.CategoryViewActivity.class);
+
+        // Reverse search with the value to get key
         String categoryKey = categoryKeys.get(categoryName);
         intent.putExtra("CATEGORY_KEY", categoryKey);
+
+        Log.d(TAG, "openCategory: Category key chosen - " + categoryKey);
+
         startActivity(intent);
     }
 
