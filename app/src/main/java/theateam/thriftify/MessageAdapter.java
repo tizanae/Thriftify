@@ -1,5 +1,6 @@
 package theateam.thriftify;
 
+import android.speech.tts.TextToSpeech;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +14,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -35,7 +38,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         public TextView messageText;
         public TextView displayName;
         public CircleImageView profileImage;
-
+        public TextView timeText;
 
         public MessageViewHolder(View view) {
             super(view);
@@ -43,6 +46,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             messageText = (TextView) view.findViewById(R.id.message_text_layout);
             displayName = (TextView) view.findViewById(R.id.name_text_layout);
             profileImage = (CircleImageView) view.findViewById(R.id.message_profile_layout);
+            timeText = (TextView) view.findViewById(R.id.time_text_layout);
 
         }
     }
@@ -93,6 +97,11 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         });
 
         viewHolder.messageText.setText(c.getMessage());
+        SimpleDateFormat simpleDateFormat =
+                new SimpleDateFormat("d MMM yy, hh:mm aaa", Locale.US);
+
+        viewHolder.timeText.setText(simpleDateFormat.format(c.getTimestamp()));
+
 
     }
 

@@ -16,6 +16,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,7 +35,6 @@ public class ChatActivity extends BaseActivity {
     private ImageButton mChatSendBtn;
     private EditText mChatMessageView;
 
-    private DatabaseReference mRootRef;
     private RecyclerView mMessagesList;
 
     private final List<Message> messagesList = new ArrayList<>();
@@ -46,10 +46,9 @@ public class ChatActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+
         getToolbar();
         setBackArrow();
-
-        mRootRef = FirebaseDatabase.getInstance().getReference();
 
         mCurrentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         mFromUserId = getIntent().getStringExtra("FROM_USER");
@@ -87,12 +86,11 @@ public class ChatActivity extends BaseActivity {
 
     private void loadMessages() {
 
-        mRootRef.child("messages").child(mCurrentUserId).child(mFromUserId).addChildEventListener(new ChildEventListener() {
+        getRootDatabase().child("messages").child(mCurrentUserId).child(mFromUserId).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
                 Message message = dataSnapshot.getValue(Message.class);
-                Toast.makeText(ChatActivity.this, "" + message.getFrom(), Toast.LENGTH_LONG);
                 messagesList.add(message);
                 mAdapter.notifyDataSetChanged();
 
@@ -132,19 +130,22 @@ public class ChatActivity extends BaseActivity {
             String current_user_ref = "messages/" + mCurrentUserId + "/" + mFromUserId;
             String chat_user_ref = "messages/" + mFromUserId + "/" + mCurrentUserId;
 
-            DatabaseReference user_message_push = mRootRef.child("messages")
+            DatabaseReference user_message_push = getRootDatabase().child("messages")
                     .child(mCurrentUserId).child(mFromUserId).push();
 
             String push_id = user_message_push.getKey();
-            Message msg = new Message(message, mCurrentUserId);
+            Map<String, Object> messageMap = new HashMap<>();
+            messageMap.put("message", message);
+            messageMap.put("timestamp", ServerValue.TIMESTAMP);
+            messageMap.put("from", mCurrentUserId);
 
-            Map messageUserMap = new HashMap();
-            messageUserMap.put(current_user_ref + "/" + push_id, msg);
-            messageUserMap.put(chat_user_ref + "/" + push_id, msg);
+            Map<String, Object> messageUserMap = new HashMap<>();
+            messageUserMap.put(current_user_ref + "/" + push_id, messageMap);
+            messageUserMap.put(chat_user_ref + "/" + push_id, messageMap);
 
             mChatMessageView.setText("");
 
-            mRootRef.updateChildren(messageUserMap, new DatabaseReference.CompletionListener() {
+            getRootDatabase().updateChildren(messageUserMap, new DatabaseReference.CompletionListener() {
                 @Override
                 public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
 
