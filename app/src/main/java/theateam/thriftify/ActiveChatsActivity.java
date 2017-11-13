@@ -23,7 +23,6 @@ import java.util.Map;
 
 public class ActiveChatsActivity extends BaseActivity {
 
-    DatabaseReference mRootDatabase;
     ActiveChatUserAdapter mAdapter;
 
     @Override
@@ -35,25 +34,8 @@ public class ActiveChatsActivity extends BaseActivity {
         getDrawer();
 
         final String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        mRootDatabase = FirebaseDatabase.getInstance().getReference();
-//        ValueEventListener responseListener = new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                if (dataSnapshot.exists() && dataSnapshot.getValue() != null) {
-//
-//                } else {
-//                    // Do stuff
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        };
 
-//        mRootDatabase.child("messages").child(user_id).addListenerForSingleValueEvent(responseListener);
-        mRootDatabase
+        getRootDatabase()
                 .child("messages")
                 .child(user_id)
                 .addChildEventListener(new ChildEventListener() {
@@ -90,7 +72,7 @@ public class ActiveChatsActivity extends BaseActivity {
     }
 
     public void getUser(final String user_id) {
-        mRootDatabase.child("users").child(user_id).addValueEventListener(new ValueEventListener() {
+        getRootDatabase().child("users").child(user_id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
