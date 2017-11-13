@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.firebase.ui.database.FirebaseListOptions;
@@ -84,6 +85,8 @@ public class ActiveChatsActivity extends BaseActivity {
                     }
                 });
         ListView listView = findViewById(R.id.active_chats);
+        TextView emptyText = (TextView)findViewById(android.R.id.empty);
+        listView.setEmptyView(emptyText);
 
         mAdapter = new ActiveChatUserAdapter(this, new ArrayList<ActiveChatUser>());
         listView.setAdapter(mAdapter);
