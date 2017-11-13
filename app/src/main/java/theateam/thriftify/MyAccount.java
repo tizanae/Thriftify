@@ -72,14 +72,12 @@ public class MyAccount extends BaseActivity {
     }
 
     public void EditUser(View v) {
-//        Intent intent = new Intent(MyAccount.this, EditMyProfile.class);
-//        startActivity(intent);
-//        finish();
+        Intent intent = new Intent(MyAccount.this, EditMyProfile.class);
+        startActivity(intent);
     }
     public void contactUser(View v){
         Intent intent = new Intent(MyAccount.this, ChatActivity.class);
         startActivity(intent);
-        finish();
     }
 }
 

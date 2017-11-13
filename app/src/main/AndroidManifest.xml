@@ -49,13 +49,12 @@
             android:theme="@style/AppTheme" />
         <activity android:name=".CategoryViewActivity" />
         <activity android:name=".PostInfoActivity" />
-        <!--<activity android:name=".EditMyProfile" />-->
+        <activity android:name=".EditMyProfile" />
         <activity android:name=".PostItemActivity" />
         <activity android:name=".FinishRegistrationActivity" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
-        />
         <activity android:name=".CreatePostActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -72,8 +71,8 @@
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" />
-        <activity android:name=".ChatActivity"></activity>
-        <activity android:name=".ActiveChatsActivity"></activity>
+        <activity android:name=".ChatActivity" />
+        <activity android:name=".ActiveChatsActivity" />
     </application>
 
 </manifest>
