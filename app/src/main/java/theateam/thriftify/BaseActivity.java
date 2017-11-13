@@ -52,7 +52,8 @@ public abstract class BaseActivity extends AppCompatActivity {
                         new PrimaryDrawerItem().withName(R.string.drawer_item_messages).withIdentifier(3),
                         new PrimaryDrawerItem().withName(R.string.drawer_item_my_account).withIdentifier(4),
                         new PrimaryDrawerItem().withName(R.string.drawer_item_log_out).withIdentifier(5),
-                        new PrimaryDrawerItem().withName("Maps Test").withIdentifier(6)
+                        new PrimaryDrawerItem().withName("Maps Test").withIdentifier(6),
+                        new PrimaryDrawerItem().withName("Places Test").withIdentifier(7)
                 )
                 .withSelectedItem(-1)
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
@@ -82,6 +83,8 @@ public abstract class BaseActivity extends AppCompatActivity {
                                 case 6:
                                     intent = new Intent(BaseActivity.this, MapsActivity.class);
                                     break;
+                                case 7:
+                                    intent = new Intent(BaseActivity.this, MapsActivity2.class);
                                 default:
                             }
                             if (intent != null) {
