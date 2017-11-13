@@ -41,7 +41,7 @@
     <string name="upload_photo">Upload Pic</string>
     <string name="save">Save</string>
     <string name="photos">Photos</string>
-    <string name="edit">(Edit/ Not you?)</string>
+    <string name="edit">(Edit)</string>
     <string name="register_link">Don\'t have an account? Sign Up</string>
     <string name="post_item_title">Post An Item</string>
     <string name="default_button">Default</string>
@@ -55,6 +55,7 @@
     <string name="prompt_msg">Type a message</string>
     <string name="action_send">Send</string>
     <string name="sample_message">Real thrifty!</string>
+    <string name="no_chats">You have no messages.</string>
 
 
 </resources>
