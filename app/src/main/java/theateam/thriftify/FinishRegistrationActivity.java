@@ -2,10 +2,12 @@ package theateam.thriftify;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -16,7 +18,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -28,12 +34,11 @@ import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 
-import java.io.IOException;
-
 
 public class FinishRegistrationActivity extends AppCompatActivity {
 
     private static final String TAG = FinishRegistrationActivity.class.getSimpleName();
+    private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
 
     private FirebaseUser mCurrentUser;
     private DatabaseReference mDatabase;
@@ -47,6 +52,9 @@ public class FinishRegistrationActivity extends AppCompatActivity {
 
     private Uri mProfilePictureUri;
 
+    private FusedLocationProviderClient mFusedLocationClient;
+    private Location mLastLocation;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +67,8 @@ public class FinishRegistrationActivity extends AppCompatActivity {
         mProfilePicture = findViewById(R.id.thumbnail);
         mFirstName = findViewById(R.id.first_name);
         mLastName = findViewById(R.id.last_name);
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         Button mUploadPhotoButton = findViewById(R.id.upload_photo_button);
         Button mSaveButton = findViewById(R.id.save_button);
@@ -79,6 +89,45 @@ public class FinishRegistrationActivity extends AppCompatActivity {
         });
 
         mRegistrationProgress = new ProgressDialog(this);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        if (!checkPermissions()) {
+            requestPermissions();
+        } else {
+            getLastLocation();
+        }
+    }
+
+    /**
+     * Get last known location from the app.
+     */
+    @SuppressWarnings("MissingPermission")
+    private void getLastLocation() {
+        Log.i(TAG, "Getting Last Location");
+        mFusedLocationClient.getLastLocation()
+                .addOnSuccessListener(new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        // GPS location can be null if GPS is switched off
+                        if (location != null) {
+                            Log.i(TAG, "Received Location");
+                            mLastLocation = location;
+                        } else {
+                            Log.e(TAG, "Missing Location");
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e(TAG, "Error trying to get last GPS location: " + e);
+                        e.printStackTrace();
+                    }
+                });
     }
 
 
@@ -111,7 +160,9 @@ public class FinishRegistrationActivity extends AppCompatActivity {
             mLastName.setError("Last name is required.");
             focusView = mLastName;
         }
-        if (focusView != null) {
+        if (mLastLocation == null) {
+            Toast.makeText(this, "Can't get location", Toast.LENGTH_LONG).show();
+        } else if (focusView != null) {
             focusView.requestFocus();
         } else if (mProfilePictureUri == null) {
             Toast.makeText(this, "You must upload a picture.", Toast.LENGTH_LONG).show();
@@ -131,7 +182,14 @@ public class FinishRegistrationActivity extends AppCompatActivity {
                     mRegistrationProgress.dismiss();
                     if (task.isSuccessful()) {
                         String downloadUri = task.getResult().getDownloadUrl().toString();
-                        User user = new User(userId, firstName, lastName, downloadUri);
+                        User user = new User(
+                                userId,
+                                firstName,
+                                lastName,
+                                downloadUri,
+                                mLastLocation.getLatitude(),
+                                mLastLocation.getLongitude()
+                        );
                         mDatabase.child("users").child(userId).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
@@ -157,6 +215,42 @@ public class FinishRegistrationActivity extends AppCompatActivity {
                 }
             });
         }
+    }
 
+    private boolean checkPermissions() {
+        Log.i(TAG, "Checking permissions");
+        int permissionState = ContextCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_COARSE_LOCATION
+        );
+        return permissionState == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void requestPermissions() {
+        Log.i(TAG, "Requesting permission");
+        ActivityCompat.requestPermissions(
+                this,
+                new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION},
+                REQUEST_PERMISSIONS_REQUEST_CODE
+        );
+    }
+
+    @Override
+    public void onRequestPermissionsResult(
+            int requestCode,
+            @NonNull String permissions[],
+            @NonNull int[] grantResults
+    ) {
+        Log.i(TAG, "onRequestPermissionResult");
+        if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
+            if (grantResults.length <= 0) {
+                Log.i(TAG, "Permission Cancelled");
+            } else if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Log.i(TAG, "Permission Granted.");
+                getLastLocation();
+            } else {
+                Log.i(TAG, "Permission Denied");
+            }
+        }
     }
 }
