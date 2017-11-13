@@ -47,42 +47,42 @@ public class CategoryViewActivity extends BaseActivity {
     private static final String TAG = CategoryViewActivity.class.getSimpleName();
 
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
-    /**
-     * The desired interval for location updates. Inexact. Updates may be more or less frequent.
-     */
-    private static final long UPDATE_INTERVAL_IN_MILLISECONDS = 10000;
-
-    /**
-     * The fastest rate for active location updates. Exact. Updates will never be more frequent
-     * than this value.
-     */
-    private static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS =
-            UPDATE_INTERVAL_IN_MILLISECONDS / 2;
+//    /**
+//     * The desired interval for location updates. Inexact. Updates may be more or less frequent.
+//     */
+//    private static final long UPDATE_INTERVAL_IN_MILLISECONDS = 10000;
+//
+//    /**
+//     * The fastest rate for active location updates. Exact. Updates will never be more frequent
+//     * than this value.
+//     */
+//    private static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS =
+//            UPDATE_INTERVAL_IN_MILLISECONDS / 2;
 
     private String mCategoryKey;
     private DatabaseReference mRootDatabase;
     private GeoFire mGeoFire;
 
     private FusedLocationProviderClient mFusedLocationClient;
-    /**
-     * Callback for Location events.
-     */
-    private LocationCallback mLocationCallback;
-    /**
-     * Provides access to the Location Settings API.
-     */
-    private SettingsClient mSettingsClient;
-
-    /**
-     * Stores parameters for requests to the FusedLocationProviderApi.
-     */
-    private LocationRequest mLocationRequest;
-
-    /**
-     * Stores the types of location services the client is interested in using. Used for checking
-     * settings to determine if the device has optimal location settings.
-     */
-    private LocationSettingsRequest mLocationSettingsRequest;
+//    /**
+//     * Callback for Location events.
+//     */
+//    private LocationCallback mLocationCallback;
+//    /**
+//     * Provides access to the Location Settings API.
+//     */
+//    private SettingsClient mSettingsClient;
+//
+//    /**
+//     * Stores parameters for requests to the FusedLocationProviderApi.
+//     */
+//    private LocationRequest mLocationRequest;
+//
+//    /**
+//     * Stores the types of location services the client is interested in using. Used for checking
+//     * settings to determine if the device has optimal location settings.
+//     */
+//    private LocationSettingsRequest mLocationSettingsRequest;
 
 
     private Location mLastLocation;
@@ -103,38 +103,38 @@ public class CategoryViewActivity extends BaseActivity {
 
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        mSettingsClient = LocationServices.getSettingsClient(this);
-//        mFusedLocationClient.getLastLocation()
-//                .addOnSuccessListener(new OnSuccessListener<Location>() {
-//                    @Override
-//                    public void onSuccess(Location location) {
-//                        // GPS location can be null if GPS is switched off
-//                        if (location != null) {
-//                            mLastLocation = location;
-//                            populateView();
-//                        } else {
-//                            Log.d(TAG, "MISSING location");
-//                        }
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        Log.d(TAG, "Error trying to get last GPS location");
-//                        e.printStackTrace();
-//                    }
-//                });
+//        mSettingsClient = LocationServices.getSettingsClient(this);
+        mFusedLocationClient.getLastLocation()
+                .addOnSuccessListener(new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        // GPS location can be null if GPS is switched off
+                        if (location != null) {
+                            mLastLocation = location;
+                            populateView();
+                        } else {
+                            Log.d(TAG, "MISSING location");
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d(TAG, "Error trying to get last GPS location");
+                        e.printStackTrace();
+                    }
+                });
 
 
         ListView itemViewer = findViewById(R.id.item_viewer);
 
         postPreviewAdapter = new PostPreviewAdapter(this, new ArrayList<PostPreview>());
         itemViewer.setAdapter(postPreviewAdapter);
-        createLocationCallback();
-        createLocationRequest();
-        mFusedLocationClient.requestLocationUpdates(mLocationRequest,
-                mLocationCallback,
-                null /* Looper */);
+//        createLocationCallback();
+//        createLocationRequest();
+//        mFusedLocationClient.requestLocationUpdates(mLocationRequest,
+//                mLocationCallback,
+//                null /* Looper */);
     }
 
     private void populateView() {
@@ -228,47 +228,47 @@ public class CategoryViewActivity extends BaseActivity {
         }
     }
 
-    private void createLocationCallback() {
-        mLocationCallback = new LocationCallback() {
-            @Override
-            public void onLocationResult(LocationResult locationResult) {
-                stopLocationUpdates();
-
-
-                if (mLastLocation == null) {
-                    mLastLocation = locationResult.getLastLocation();
-                    populateView();
-                }
-
-            }
-        };
-    }
-
-
-    private void createLocationRequest() {
-        mLocationRequest = new LocationRequest();
-
-        // Sets the desired interval for active location updates. This interval is
-        // inexact. You may not receive updates at all if no location sources are available, or
-        // you may receive them slower than requested. You may also receive updates faster than
-        // requested if other applications are requesting location at a faster interval.
-        mLocationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
-
-        // Sets the fastest rate for active location updates. This interval is exact, and your
-        // application will never receive updates faster than this value.
-        mLocationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
-
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-    }
-
-    /**
-     * Removes location updates from the FusedLocationApi.
-     */
-    private void stopLocationUpdates() {
-
-        // It is a good practice to remove location requests when the activity is in a paused or
-        // stopped state. Doing so helps battery performance and is especially
-        // recommended in applications that request frequent location updates.
-        mFusedLocationClient.removeLocationUpdates(mLocationCallback);
-    }
+//    private void createLocationCallback() {
+//        mLocationCallback = new LocationCallback() {
+//            @Override
+//            public void onLocationResult(LocationResult locationResult) {
+//                stopLocationUpdates();
+//
+//
+//                if (mLastLocation == null) {
+//                    mLastLocation = locationResult.getLastLocation();
+//                    populateView();
+//                }
+//
+//            }
+//        };
+//    }
+//
+//
+//    private void createLocationRequest() {
+//        mLocationRequest = new LocationRequest();
+//
+//        // Sets the desired interval for active location updates. This interval is
+//        // inexact. You may not receive updates at all if no location sources are available, or
+//        // you may receive them slower than requested. You may also receive updates faster than
+//        // requested if other applications are requesting location at a faster interval.
+//        mLocationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
+//
+//        // Sets the fastest rate for active location updates. This interval is exact, and your
+//        // application will never receive updates faster than this value.
+//        mLocationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
+//
+//        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+//    }
+//
+//    /**
+//     * Removes location updates from the FusedLocationApi.
+//     */
+//    private void stopLocationUpdates() {
+//
+//        // It is a good practice to remove location requests when the activity is in a paused or
+//        // stopped state. Doing so helps battery performance and is especially
+//        // recommended in applications that request frequent location updates.
+//        mFusedLocationClient.removeLocationUpdates(mLocationCallback);
+//    }
 }

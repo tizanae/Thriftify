@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -22,6 +23,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 public abstract class BaseActivity extends AppCompatActivity {
     private Drawer mDrawer;
     private Toolbar mToolbar;
+    private FirebaseUser mCurrentUser;
     private DatabaseReference mRootDatabase;
     private StorageReference mRootStorage;
 
@@ -94,6 +96,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         return mDrawer;
     }
 
+    public FirebaseUser getCurrentUser() {
+        if (mCurrentUser == null) {
+            mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
+        }
+        return mCurrentUser;
+    }
+
     public DatabaseReference getRootDatabase() {
         if (mRootDatabase == null) {
             mRootDatabase = FirebaseDatabase.getInstance().getReference();
@@ -106,6 +115,15 @@ public abstract class BaseActivity extends AppCompatActivity {
             mRootStorage = FirebaseStorage.getInstance().getReference();
         }
         return mRootStorage;
+    }
+
+    public void checkAuthenticated() {
+        if (getCurrentUser() == null) {
+            Intent intent = new Intent(BaseActivity.this, LoginActivity.class);
+            BaseActivity.this.startActivity(intent);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            finish();
+        }
     }
 
     public void setBackArrow() {

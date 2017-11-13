@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -24,12 +25,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.IOException;
 
 
 public class FinishRegistrationActivity extends AppCompatActivity {
+
+    private static final String TAG = FinishRegistrationActivity.class.getSimpleName();
+
     private FirebaseUser mCurrentUser;
     private DatabaseReference mDatabase;
     private StorageReference mImageStorage;
@@ -51,9 +56,10 @@ public class FinishRegistrationActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mImageStorage = FirebaseStorage.getInstance().getReference();
 
-        mProfilePicture = findViewById(R.id.profile_image);
+        mProfilePicture = findViewById(R.id.thumbnail);
         mFirstName = findViewById(R.id.first_name);
         mLastName = findViewById(R.id.last_name);
+
         Button mUploadPhotoButton = findViewById(R.id.upload_photo_button);
         Button mSaveButton = findViewById(R.id.save_button);
 
@@ -78,36 +84,30 @@ public class FinishRegistrationActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
-                try {
-                    Uri resultUri = result.getUri();
-                    mProfilePictureUri = resultUri;
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), resultUri);
-                    mProfilePicture.setImageBitmap(bitmap);
-                } catch(IOException e) {
-                    Toast.makeText(this, "Error in loading picture: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                }
-
+                mProfilePictureUri = result.getUri();
+                Picasso.with(FinishRegistrationActivity.this).load(mProfilePictureUri).into(mProfilePicture);
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
-                Toast.makeText(this, "Error in loading picture: " + error.getMessage(), Toast.LENGTH_LONG).show();
+                Log.e(TAG, "uploadPicture: Error while loading thumbnail, " + error);
+                Toast.makeText(this, "Error in loading picture", Toast.LENGTH_LONG).show();
             }
         }
     }
 
 
     private void finishRegistration() {
-        final String first_name = mFirstName.getText().toString();
-        final String last_name = mLastName.getText().toString();
+        final String firstName = mFirstName.getText().toString();
+        final String lastName = mLastName.getText().toString();
+        final String userId = mCurrentUser.getUid();
         View focusView = null;
 
-        if (TextUtils.isEmpty(first_name)) {
+        if (TextUtils.isEmpty(firstName)) {
             mFirstName.setError("First name is required.");
             focusView = mFirstName;
-        } else if (TextUtils.isEmpty(last_name)) {
+        } else if (TextUtils.isEmpty(lastName)) {
             mLastName.setError("Last name is required.");
             focusView = mLastName;
         }
@@ -122,21 +122,17 @@ public class FinishRegistrationActivity extends AppCompatActivity {
             mRegistrationProgress.setCanceledOnTouchOutside(false);
             mRegistrationProgress.show();
 
+            StorageReference imagePath = mImageStorage.child("profile_images").child(userId + ".jpg");
 
-            final String uid = mCurrentUser.getUid();
-
-            StorageReference imagePath = mImageStorage.child("profile_images").child(uid + ".jpg");
-
-            // Sorry for these nested loops...
 
             imagePath.putFile(mProfilePictureUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                     mRegistrationProgress.dismiss();
                     if (task.isSuccessful()) {
-                        String download_uri = task.getResult().getDownloadUrl().toString();
-                        User user = new User(first_name, last_name, download_uri);
-                        mDatabase.child("users").child(uid).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        String downloadUri = task.getResult().getDownloadUrl().toString();
+                        User user = new User(userId, firstName, lastName, downloadUri);
+                        mDatabase.child("users").child(userId).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 mRegistrationProgress.dismiss();
@@ -152,6 +148,7 @@ public class FinishRegistrationActivity extends AppCompatActivity {
                         });
 
                     } else {
+                        Log.e(TAG, "putFile: Failed, " + task.getException());
                         Toast.makeText(
                                 FinishRegistrationActivity.this,
                                 "Upload of picture failed...",
@@ -162,18 +159,4 @@ public class FinishRegistrationActivity extends AppCompatActivity {
         }
 
     }
-
-    // https://stackoverflow.com/questions/12116092/android-random-string-generator
-//    public static String random() {
-//        Random generator = new Random();
-//        StringBuilder randomStringBuilder = new StringBuilder();
-//        int randomLength = generator.nextInt(10);
-//        char tempChar;
-//        for (int i = 0; i < randomLength; i++){
-//            tempChar = (char) (generator.nextInt(96) + 32);
-//            randomStringBuilder.append(tempChar);
-//        }
-//        return randomStringBuilder.toString();
-//    }
-
 }

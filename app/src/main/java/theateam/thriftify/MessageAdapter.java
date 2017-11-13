@@ -77,14 +77,11 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         mUserDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
 
-                String first_name = dataSnapshot.child("first_name").getValue().toString();
-                String last_name = dataSnapshot.child("last_name").getValue().toString();
-                String image = dataSnapshot.child("profile_picture_uri").getValue().toString();
+                viewHolder.displayName.setText(user.getFirstName() + " " + user.getLastName());
 
-                viewHolder.displayName.setText(first_name + " " + last_name);
-
-                Picasso.with(viewHolder.profileImage.getContext()).load(image)
+                Picasso.with(viewHolder.profileImage.getContext()).load(user.getThumbnail())
                         .placeholder(R.drawable.default_avatar).into(viewHolder.profileImage);
 
             }

@@ -2,7 +2,7 @@ package theateam.thriftify;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.CardView;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,21 +14,22 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class ActiveChatUserAdapter extends ArrayAdapter<ActiveChatUser> {
+public class ActiveChatUserAdapter extends ArrayAdapter<User> {
 
     private static class ViewHolder {
         TextView name;
         ImageView thumbnail;
     }
 
-    public ActiveChatUserAdapter(Context context, ArrayList<ActiveChatUser> activeChatUsers) {
+    public ActiveChatUserAdapter(Context context, ArrayList<User> activeChatUsers) {
         super(context, R.layout.active_chat_user, activeChatUsers);
     }
 
     @Override
+    @NonNull
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        final ActiveChatUser activeChatUser = getItem(position);
+        final User activeChatUser = getItem(position);
         ViewHolder viewHolder;
 
         if (convertView == null) {
@@ -45,14 +46,16 @@ public class ActiveChatUserAdapter extends ArrayAdapter<ActiveChatUser> {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String user_id = activeChatUser.getUser_id();
+
+                String user_id = activeChatUser.getUserId();
                 Intent intent = new Intent(getContext(), ChatActivity.class);
                 intent.putExtra("FROM_USER", user_id);
                 getContext().startActivity(intent);
             }
         });
-        viewHolder.name.setText(activeChatUser.getName());
-        Picasso.with(getContext()).load(activeChatUser.getThumb()).into(viewHolder.thumbnail);
+        String fullName = activeChatUser.getFirstName() + " " + activeChatUser.getLastName();
+        viewHolder.name.setText(fullName);
+        Picasso.with(getContext()).load(activeChatUser.getThumbnail()).into(viewHolder.thumbnail);
 
 
         return convertView;

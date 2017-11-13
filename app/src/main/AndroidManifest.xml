@@ -49,7 +49,7 @@
             android:theme="@style/AppTheme" />
         <activity android:name=".CategoryViewActivity" />
         <activity android:name=".PostInfo" />
-        <activity android:name=".EditMyProfile" />
+        <!--<activity android:name=".EditMyProfile" />-->
         <activity android:name=".PostItemActivity" />
         <activity android:name=".FinishRegistrationActivity" />
         <activity

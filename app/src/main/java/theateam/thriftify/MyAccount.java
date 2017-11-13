@@ -48,13 +48,14 @@ public class MyAccount extends BaseActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mRegistrationProgress.dismiss();
-                String first_name = dataSnapshot.child("first_name").getValue().toString();
-                String last_name = dataSnapshot.child("last_name").getValue().toString();
-                String profile_pic_uri = dataSnapshot.child("profile_picture_uri").getValue().toString();
-                String full_name = first_name + " " + last_name;
-                mScreenName.setText(full_name);
+                User currentUser = dataSnapshot.getValue(User.class);
+//                String first_name = dataSnapshot.child("first_name").getValue().toString();
+//                String last_name = dataSnapshot.child("last_name").getValue().toString();
+//                String profile_pic_uri = dataSnapshot.child("profile_picture_uri").getValue().toString();
+                String fullName = currentUser.getFirstName() + " " + currentUser.getLastName();
+                mScreenName.setText(fullName);
                 Picasso.with(MyAccount.this)
-                        .load(profile_pic_uri)
+                        .load(currentUser.getThumbnail())
                         .placeholder(R.drawable.profile)
                         .into(mProfilePicture);
 
@@ -69,9 +70,9 @@ public class MyAccount extends BaseActivity {
     }
 
     public void EditUser(View v) {
-        Intent intent = new Intent(MyAccount.this, EditMyProfile.class);
-        startActivity(intent);
-        finish();
+//        Intent intent = new Intent(MyAccount.this, EditMyProfile.class);
+//        startActivity(intent);
+//        finish();
     }
     public void contactUser(View v){
         Intent intent = new Intent(MyAccount.this, ChatActivity.class);

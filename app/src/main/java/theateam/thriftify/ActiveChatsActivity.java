@@ -1,26 +1,15 @@
 package theateam.thriftify;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.firebase.ui.database.FirebaseListAdapter;
-import com.firebase.ui.database.FirebaseListOptions;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class ActiveChatsActivity extends BaseActivity {
 
@@ -31,62 +20,56 @@ public class ActiveChatsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_active_chats);
 
+        checkAuthenticated();
         getToolbar();
         getDrawer();
 
-        final String user_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        ChildEventListener activeUserChatsListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                String from_user_id = dataSnapshot.getKey();
+                getUser(from_user_id);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {}
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        };
 
         getRootDatabase()
                 .child("messages")
-                .child(user_id)
-                .addChildEventListener(new ChildEventListener() {
-                    @Override
-                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                        String from_user_id = dataSnapshot.getKey();
-                        getUser(from_user_id);
-                    }
-
-                    @Override
-                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-                    }
-
-                    @Override
-                    public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-                    }
-
-                    @Override
-                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
+                .child(getCurrentUser().getUid())
+                .addChildEventListener(activeUserChatsListener);
         ListView listView = findViewById(R.id.active_chats);
-        TextView emptyText = (TextView)findViewById(android.R.id.empty);
+        TextView emptyText = findViewById(android.R.id.empty);
         listView.setEmptyView(emptyText);
 
-        mAdapter = new ActiveChatUserAdapter(this, new ArrayList<ActiveChatUser>());
+        mAdapter = new ActiveChatUserAdapter(this, new ArrayList<User>());
         listView.setAdapter(mAdapter);
     }
 
-    public void getUser(final String user_id) {
-        getRootDatabase().child("users").child(user_id).addValueEventListener(new ValueEventListener() {
+    public void getUser(final String userId) {
+        ValueEventListener userListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
-                mAdapter.add(new ActiveChatUser(user_id, user.first_name + " " + user.last_name, user.profile_picture_uri));
-
+                mAdapter.add(user);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        });
+        };
+
+        getRootDatabase().child("users").child(userId).addValueEventListener(userListener);
     }
 }
