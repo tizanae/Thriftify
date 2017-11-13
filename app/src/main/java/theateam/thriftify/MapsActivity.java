@@ -50,7 +50,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     //To get specific locations
     private TextView get_place;
-    int PLACE_PICKER_REQUEST = 1;
+    private int PLACE_PICKER_REQUEST = 22;
 
 
     @Override
@@ -74,33 +74,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         get_place.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
-
-                Intent intent;
-                try {
-                    intent = builder.build(MapsActivity.this);
-                    startActivityForResult(intent, PLACE_PICKER_REQUEST);
-
-                } catch (GooglePlayServicesRepairableException e) {
-                    e.printStackTrace();
-                } catch (GooglePlayServicesNotAvailableException e) {
-                    e.printStackTrace();
-                }
+                startPlacePicker();
             }
         });
 
      }
 
+     protected void startPlacePicker() {
+         try {
+             PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+             startActivityForResult(builder.build(this), PLACE_PICKER_REQUEST);
+         } catch (GooglePlayServicesRepairableException e) {
+             e.printStackTrace();
+         } catch (GooglePlayServicesNotAvailableException e) {
+             e.printStackTrace();
+         }
+     }
+
      //For choosing locations
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        if(requestCode == PLACE_PICKER_REQUEST)
-        {
-            if(resultCode == RESULT_OK)
-            {
-                Place place = PlacePicker.getPlace(data, this);
-                String address = String.format("Place: %s", place.getAddress());
-                get_place.setText(address);
+        if (requestCode == PLACE_PICKER_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                Place place = PlacePicker.getPlace(this, data);
+                String placeholder = String.format("Place: %s", place.getName());
+                get_place.setText(placeholder);
             }
         }
 
