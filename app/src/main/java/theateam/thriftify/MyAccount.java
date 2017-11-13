@@ -18,6 +18,8 @@ import com.squareup.picasso.Picasso;
 
 public class MyAccount extends BaseActivity {
 
+    private static final String TAG = MyAccount.class.getSimpleName();
+
     private DatabaseReference mUserDatabase;
     private FirebaseUser mCurrentUser;
 

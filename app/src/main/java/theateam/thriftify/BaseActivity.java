@@ -2,7 +2,6 @@ package theateam.thriftify;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,6 +17,8 @@ import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+
+import java.util.Random;
 
 
 public abstract class BaseActivity extends AppCompatActivity {
@@ -65,7 +66,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                                     intent = new Intent(BaseActivity.this, MainActivity.class);
                                     break;
                                 case 2:
-                                    intent = new Intent(BaseActivity.this, CreatePost.class);
+                                    intent = new Intent(BaseActivity.this, CreatePostActivity.class);
                                     break;
                                 case 3:
                                     intent = new Intent(BaseActivity.this, ActiveChatsActivity.class);
@@ -146,5 +147,18 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
     public boolean onCreateOptionsMenu(Menu menu) {
         return true;
+    }
+
+    // https://stackoverflow.com/questions/12116092/android-random-string-generator
+    public static String generateRandomString(int maxLength) {
+        Random generator = new Random();
+        StringBuilder randomStringBuilder = new StringBuilder();
+        int randomLength = generator.nextInt(maxLength);
+        char tempChar;
+        for (int i = 0; i < randomLength; i++){
+            tempChar = (char) (generator.nextInt(96) + 32);
+            randomStringBuilder.append(tempChar);
+        }
+        return randomStringBuilder.toString();
     }
 }

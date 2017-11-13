@@ -16,12 +16,8 @@ import android.widget.Toast;
 
 import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoLocation;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -33,15 +29,11 @@ import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
 
 
 public class PostItemActivity extends BaseActivity {
 
-    private FirebaseUser mCurrentUser;
-    private DatabaseReference mRootDatabase;
-    private DatabaseReference mGeoFireReference;
-    private StorageReference mRootStorage;
+    private static final String TAG = PostItemActivity.class.getSimpleName();
 
     private GeoFire mGeoFire;
 
@@ -58,9 +50,8 @@ public class PostItemActivity extends BaseActivity {
 
     protected ProgressDialog mProgressDialog;
 
-    // TODO: FIXME: PERMISSIONS!
     @Override
-    @SuppressWarnings({"MissingPermission"})
+    @SuppressWarnings("MissingPermission")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_item);
@@ -68,16 +59,12 @@ public class PostItemActivity extends BaseActivity {
         setBackArrow();
         mCategoryKey = getIntent().getStringExtra("CATEGORY_KEY");
 
-        mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
-        mRootDatabase = FirebaseDatabase.getInstance().getReference();
-        mRootStorage = FirebaseStorage.getInstance().getReference();
-        mGeoFireReference = mRootDatabase.child("geo_fire").child(mCategoryKey);
+        DatabaseReference mGeoFireReference = getRootDatabase().child("geo_fire").child(mCategoryKey);
         mGeoFire = new GeoFire(mGeoFireReference);
 
-
-        mPostTitle = (TextView) findViewById(R.id.input_title);
-        mPostPrice = (TextView) findViewById(R.id.input_price);
-        mPostDescription = (TextView) findViewById(R.id.input_description);
+        mPostTitle = findViewById(R.id.input_title);
+        mPostPrice = findViewById(R.id.input_price);
+        mPostDescription = findViewById(R.id.input_description);
 
         mProgressDialog = new ProgressDialog(this);
 
@@ -117,7 +104,7 @@ public class PostItemActivity extends BaseActivity {
         ArrayList<Uri> uris = new ArrayList<>();
         adapter = new PostItemPictureAdapter(this, uris);
         adapter.setNotifyOnChange(true);
-        ListView listView = (ListView) findViewById(R.id.picturesContainer);
+        ListView listView = findViewById(R.id.picturesContainer);
         listView.setAdapter(adapter);
 
     }
@@ -139,7 +126,7 @@ public class PostItemActivity extends BaseActivity {
     }
 
     private void postItem() {
-        String current_user_id = mCurrentUser.getUid();
+        String current_user_id = getCurrentUser().getUid();
         String post_title = mPostTitle.getText().toString();
         String post_price = mPostPrice.getText().toString();
         String post_description = mPostDescription.getText().toString();
@@ -170,7 +157,12 @@ public class PostItemActivity extends BaseActivity {
         final double lat = mLastLocation.getLatitude();
         final double lng = mLastLocation.getLongitude();
 
+
+
+        final String newPostKey = getRootDatabase().child("posts").child(mCategoryKey).push().getKey();
+
         final Post newPost = new Post(
+                newPostKey,
                 current_user_id,
                 mCategoryKey,
                 post_title,
@@ -181,26 +173,26 @@ public class PostItemActivity extends BaseActivity {
                 new HashMap<String, String>()
         );
 
-        final String newPostKey = mRootDatabase.child("posts").child(mCategoryKey).push().getKey();
-
-
         mProgressDialog.setTitle("Finishing Registration");
         mProgressDialog.setMessage("Please wait!");
         mProgressDialog.setCanceledOnTouchOutside(false);
         mProgressDialog.show();
 
-        mRootDatabase
+        getRootDatabase()
                 .child("posts")
                 .child(mCategoryKey)
                 .child(newPostKey)
                 .setValue(newPost)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
-            public void onComplete(Task<Void> task) {
+            public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
                     for (Uri pic_uri: picture_uris) {
 
-                        StorageReference imagePath = mRootStorage.child("post_images").child(newPostKey).child(random() + ".jpg");
+                        StorageReference imagePath = getRootStorage()
+                                .child("post_images")
+                                .child(newPostKey)
+                                .child(generateRandomString(10) + ".jpg");
 
                         // Sorry for these nested loops...
 
@@ -210,7 +202,7 @@ public class PostItemActivity extends BaseActivity {
                             public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                                 if (task.isSuccessful()) {
                                     String download_uri = task.getResult().getDownloadUrl().toString();
-                                    mRootDatabase.child("posts").child(mCategoryKey).child(newPostKey).child("picture_uris").push().setValue(download_uri);
+                                    getRootDatabase().child("posts").child(mCategoryKey).child(newPostKey).child("pictures").push().setValue(download_uri);
                                 }
                             }
                         });
@@ -241,16 +233,5 @@ public class PostItemActivity extends BaseActivity {
 
     }
 
-    // https://stackoverflow.com/questions/12116092/android-random-string-generator
-    public static String random() {
-        Random generator = new Random();
-        StringBuilder randomStringBuilder = new StringBuilder();
-        int randomLength = generator.nextInt(10);
-        char tempChar;
-        for (int i = 0; i < randomLength; i++){
-            tempChar = (char) (generator.nextInt(96) + 32);
-            randomStringBuilder.append(tempChar);
-        }
-        return randomStringBuilder.toString();
-    }
+
 }

@@ -1,7 +1,6 @@
 package theateam.thriftify;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,7 +18,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class CreatePost extends BaseActivity {
+public class CreatePostActivity extends BaseActivity {
+
+    private static final String TAG = CreatePostActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +45,7 @@ public class CreatePost extends BaseActivity {
                     categories.add(category);
                 }
                 final ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(
-                        CreatePost.this,
+                        CreatePostActivity.this,
                         R.layout.category_item,
                         R.id.category_name,
                         categories
@@ -61,7 +62,7 @@ public class CreatePost extends BaseActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(CreatePost.this, "Error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(CreatePostActivity.this, "Error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 

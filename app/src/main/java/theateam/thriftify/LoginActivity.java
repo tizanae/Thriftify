@@ -20,6 +20,8 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private static final String TAG = LoginActivity.class.getSimpleName();
+
     private FirebaseAuth mAuth; //firebase authentication object
     // UI reference objects
     private TextInputEditText emailView;

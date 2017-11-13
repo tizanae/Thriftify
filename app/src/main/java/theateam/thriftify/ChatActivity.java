@@ -24,19 +24,7 @@ import java.util.Map;
 
 public class ChatActivity extends BaseActivity {
 
-//    private String userName;
-//    private ListView msgListView;
-//    private EditText msgInput;
-//    private ImageButton sendButton;
-//    private String userID;
-//
-//    private FirebaseUser mCurrentUser;
-//    private DatabaseReference DBref;
-//    private DatabaseReference mUserDatabaseRef;
-//    private ChatListAdapter mAdapter;
-
-
-//    private FirebaseUser mCurrentUser;
+    private static final String TAG = ChatActivity.class.getSimpleName();
 
     private String mCurrentUserId;
     private String mFromUserId;

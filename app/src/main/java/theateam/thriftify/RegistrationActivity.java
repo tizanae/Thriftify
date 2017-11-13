@@ -27,6 +27,8 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class RegistrationActivity extends AppCompatActivity {
 
+    private static final String TAG = RegistrationActivity.class.getSimpleName();
+
 //    // Constants
     public static final String APP_PREFS = "AppPrefs";
     public static final String SCREEN_NAME_KEY = "username";

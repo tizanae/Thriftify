@@ -19,7 +19,6 @@ public class MainActivity extends BaseActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,14 +78,13 @@ public class MainActivity extends BaseActivity {
     }
 
     private void openCategory(HashMap<String, String> categoryKeys, String categoryName) {
-        Intent intent = new Intent(this, theateam.thriftify.CategoryViewActivity.class);
-
         // Reverse search with the value to get key
         String categoryKey = categoryKeys.get(categoryName);
-        intent.putExtra("CATEGORY_KEY", categoryKey);
-
         Log.d(TAG, "openCategory: Category key chosen - " + categoryKey);
 
+        // Feed Category ID to next the category view activity
+        Intent intent = new Intent(this, theateam.thriftify.CategoryViewActivity.class);
+        intent.putExtra("CATEGORY_KEY", categoryKey);
         startActivity(intent);
     }
 

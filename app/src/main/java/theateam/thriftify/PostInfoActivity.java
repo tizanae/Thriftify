@@ -7,12 +7,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 import com.synnapps.carouselview.CarouselView;
@@ -20,12 +17,9 @@ import com.synnapps.carouselview.ImageListener;
 
 import java.util.ArrayList;
 
-public class PostInfo extends BaseActivity {
+public class PostInfoActivity extends BaseActivity {
 
-    private String mCategoryKey;
-    private String mPostKey;
 
-    private DatabaseReference mRootReference;
 
     private TextView mTitleView;
     private TextView mPriceView;
@@ -48,10 +42,8 @@ public class PostInfo extends BaseActivity {
         getToolbar();
         setBackArrow();
 
-        mCategoryKey = getIntent().getStringExtra("CATEGORY_KEY");
-        mPostKey = getIntent().getStringExtra("POST_KEY");
-
-        mRootReference = FirebaseDatabase.getInstance().getReference();
+        String categoryKey = getIntent().getStringExtra("CATEGORY_KEY");
+        String postKey = getIntent().getStringExtra("POST_KEY");
 
         mCarouselView = findViewById(R.id.carouselView);
         mTitleView = findViewById(R.id.post_title);
@@ -67,17 +59,16 @@ public class PostInfo extends BaseActivity {
 
         mCarouselView.setImageListener(imageListener);
 
-        mRootReference.child("posts").child(mCategoryKey).child(mPostKey).addValueEventListener(new ValueEventListener() {
+        getRootDatabase().child("posts").child(categoryKey).child(postKey).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mPost = dataSnapshot.getValue(Post.class);
                 mLoadingDialog.dismiss();
-//                Toast.makeText(PostInfo.this, "" + post.picture_uris.toString(), Toast.LENGTH_LONG);
-                mImageUris = new ArrayList<>(mPost.picture_uris.values());
+                mImageUris = new ArrayList<>(mPost.getPictures().values());
                 mCarouselView.setPageCount(mImageUris.size());
-                mTitleView.setText(mPost.title);
-                mPriceView.setText(mPost.price);
-                mDescriptionView.setText(mPost.description);
+                mTitleView.setText(mPost.getTitle());
+                mPriceView.setText(mPost.getPrice());
+                mDescriptionView.setText(mPost.getDescription());
 
             }
 
@@ -89,8 +80,8 @@ public class PostInfo extends BaseActivity {
         mChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PostInfo.this, ChatActivity.class);
-                intent.putExtra("FROM_USER", mPost.user_id);
+                Intent intent = new Intent(PostInfoActivity.this, ChatActivity.class);
+                intent.putExtra("FROM_USER", mPost.getUserId());
                 startActivity(intent);
             }
         });
@@ -102,7 +93,7 @@ public class PostInfo extends BaseActivity {
         @Override
         public void setImageForPosition(int position, ImageView imageView) {
             String image_uri = mImageUris.get(position);
-            Picasso.with(PostInfo.this).load(image_uri).into(imageView);
+            Picasso.with(PostInfoActivity.this).load(image_uri).into(imageView);
         }
     };
 

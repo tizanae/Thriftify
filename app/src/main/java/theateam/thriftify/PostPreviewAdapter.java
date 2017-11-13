@@ -2,32 +2,21 @@ package theateam.thriftify;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.support.v4.content.ContextCompat;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
-/**
- * Created by oflyingturtleo on 10/20/17.
- */
-
-
-
-public class PostPreviewAdapter extends ArrayAdapter<PostPreview> {
+public class PostPreviewAdapter extends ArrayAdapter<Post> {
 
     private static class ViewHolder {
         TextView title;
@@ -35,14 +24,15 @@ public class PostPreviewAdapter extends ArrayAdapter<PostPreview> {
         CardView cardView;
     }
 
-    public PostPreviewAdapter(Context context, ArrayList<PostPreview> post_previews) {
-        super(context, R.layout.posting_template, post_previews);
+    public PostPreviewAdapter(Context context, ArrayList<Post> posts) {
+        super(context, R.layout.posting_template, posts);
     }
 
     @Override
+    @NonNull
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        final PostPreview postPreview = getItem(position);
+        final Post post = getItem(position);
         ViewHolder viewHolder;
 
         if (convertView == null) {
@@ -57,27 +47,21 @@ public class PostPreviewAdapter extends ArrayAdapter<PostPreview> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-//        Button btnDelete = convertView.findViewById(R.id.deleteButton);
-////        Button btnDefault = (Button) convertView.findViewById(R.id.defaultButton);
-//        btnDelete.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                remove(uri);
-//                notifyDataSetChanged();
-//            }
-//        });
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), PostInfo.class);
-                intent.putExtra("CATEGORY_KEY", postPreview.getCategory());
-                intent.putExtra("POST_KEY", postPreview.getKey());
+                Intent intent = new Intent(getContext(), PostInfoActivity.class);
+                intent.putExtra("CATEGORY_KEY", post.getCategoryKey());
+                intent.putExtra("POST_KEY", post.getPostKey());
                 getContext().startActivity(intent);
             }
         });
-        viewHolder.title.setText(postPreview.getName());
-        Picasso.with(getContext()).load(postPreview.getThumbnail()).into(viewHolder.thumbnail);
+        if (post.getPictures() != null) {
+            String defaultThumb = post.getPictures().values().toArray()[0].toString();
+            Picasso.with(getContext()).load(defaultThumb).into(viewHolder.thumbnail);
+        }
 
+        viewHolder.title.setText(post.getTitle());
 
         return convertView;
     }

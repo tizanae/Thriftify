@@ -13,6 +13,9 @@ import java.util.ArrayList;
 
 public class ActiveChatsActivity extends BaseActivity {
 
+    private static final String TAG = ActiveChatsActivity.class.getSimpleName();
+
+
     ActiveChatUserAdapter mAdapter;
 
     @Override
