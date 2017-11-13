@@ -2,6 +2,8 @@ package theateam.thriftify;
 
 import android.*;
 import android.Manifest;
+import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 
@@ -12,13 +14,19 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -40,6 +48,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Marker currentLocationMarker;
     public static final int REQUEST_LOCATION_CODE = 99;
 
+    //To get specific locations
+    private TextView get_place;
+    int PLACE_PICKER_REQUEST = 1;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +67,43 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        //Used for getting places
+        get_place = (TextView)findViewById(R.id.textView);
+        get_place.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+
+                Intent intent;
+                try {
+                    intent = builder.build((Activity) getApplicationContext());
+                    startActivityForResult(intent, PLACE_PICKER_REQUEST);
+
+                } catch (GooglePlayServicesRepairableException e) {
+                    e.printStackTrace();
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+     }
+
+     //For choosing locations
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if(requestCode == PLACE_PICKER_REQUEST)
+        {
+            if(resultCode == RESULT_OK)
+            {
+                Place place = PlacePicker.getPlace(data, this);
+                String address = String.format("Place: %s", place.getAddress());
+                get_place.setText(address);
+            }
+        }
+
+
     }
 
     @Override
@@ -168,6 +218,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     }
+
+
 
     public boolean checkLocationPermission()
     {
