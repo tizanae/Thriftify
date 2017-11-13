@@ -58,6 +58,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
+
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
         {
             checkLocationPermission();
@@ -69,7 +70,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 
         //Used for getting places
-        get_place = (TextView)findViewById(R.id.textView);
+        get_place = (TextView)findViewById(R.id.get_place);
         get_place.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -77,7 +78,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 Intent intent;
                 try {
-                    intent = builder.build((Activity) getApplicationContext());
+                    intent = builder.build(MapsActivity.this);
                     startActivityForResult(intent, PLACE_PICKER_REQUEST);
 
                 } catch (GooglePlayServicesRepairableException e) {
