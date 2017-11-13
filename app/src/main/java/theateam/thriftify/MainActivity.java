@@ -1,5 +1,6 @@
 package theateam.thriftify;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.location.Location;
 import android.support.annotation.NonNull;
@@ -29,6 +30,24 @@ import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,6 +56,10 @@ import java.util.Map;
 
 public class MainActivity extends BaseActivity {
 
+    //To get specific locations
+    //private TextView get_place;
+    //int PLACE_PICKER_REQUEST = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +67,6 @@ public class MainActivity extends BaseActivity {
 
         getToolbar();
         getDrawer();
-
 
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -82,9 +104,41 @@ public class MainActivity extends BaseActivity {
 
             }
         });
+        /*
+        //Used to find places
+        get_place = (TextView)findViewById(R.id.textView);
+        get_place.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
 
+                Intent intent;
+                try {
+                    intent = builder.build((Activity) getApplicationContext());
+                    startActivityForResult(intent, PLACE_PICKER_REQUEST);
+                } catch (GooglePlayServicesRepairableException e) {
+                    e.printStackTrace();
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    e.printStackTrace();
+                }
+            }
+        }); */
 
     }
+    /*
+    //For choosing locations
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if(requestCode == PLACE_PICKER_REQUEST)
+        {
+            if(resultCode == RESULT_OK)
+            {
+                Place place2 = PlacePicker.getPlace(data, this);
+                String address2 = String.format("Place: %s", place2.getAddress());
+                get_place.setText(address2);
+            }
+        }
+    } */
 
     private void openCategory(HashMap<String, String> categoryKeys, String categoryName) {
         Intent intent = new Intent(this, theateam.thriftify.CategoryViewActivity.class);
