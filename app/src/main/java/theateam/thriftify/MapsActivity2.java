@@ -19,10 +19,12 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -44,7 +46,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
-public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity2 extends AppCompatActivity implements OnMapReadyCallback {
 
     private static final String TAG = MapsActivity2.class.getSimpleName();
     private GoogleMap mMap;
@@ -106,6 +108,14 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map2);
         mapFragment.getMapAsync(this);
+
+        Button getPlace = findViewById(R.id.get_place);
+        getPlace.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showCurrentPlace();
+            }
+        });
     }
 
     /**
@@ -140,8 +150,9 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.option_get_place) {
             showCurrentPlace();
+            return true;
         }
-        return true;
+        return super.onOptionsItemSelected(item);
     }
 
 
@@ -338,9 +349,9 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
 
             // Add a default marker, because the user hasn't selected a place.
             mMap.addMarker(new MarkerOptions()
-                    .title(getString(R.string.default_info_title))
+                    .title("Hueh")
                     .position(mDefaultLocation)
-                    .snippet(getString(R.string.default_info_snippet)));
+                    .snippet("Noop"));
 
             // Prompt the user for permission.
             getLocationPermission();
@@ -377,7 +388,7 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
 
         // Display the dialog.
         AlertDialog dialog = new AlertDialog.Builder(this)
-                .setTitle(R.string.pick_place)
+                .setTitle("pick place")
                 .setItems(mLikelyPlaceNames, listener)
                 .show();
     }
