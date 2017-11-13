@@ -1,39 +1,19 @@
 package theateam.thriftify;
 
 import android.content.Intent;
-import android.location.Location;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.mikepenz.materialdrawer.Drawer;
-import com.mikepenz.materialdrawer.DrawerBuilder;
-import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
-import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class MainActivity extends BaseActivity {
 
@@ -45,13 +25,7 @@ public class MainActivity extends BaseActivity {
         getToolbar();
         getDrawer();
 
-
-
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-
-        Query categoriesQuery = databaseReference.child("categories").orderByKey();
-
-        categoriesQuery.addValueEventListener(new ValueEventListener() {
+        ValueEventListener categoriesEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 final HashMap<String, String> categoryKeys = new HashMap<>();
@@ -81,7 +55,12 @@ public class MainActivity extends BaseActivity {
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        });
+        };
+
+        getRootDatabase()
+                .child("categories")
+                .orderByKey()
+                .addValueEventListener(categoriesEventListener);
 
 
     }

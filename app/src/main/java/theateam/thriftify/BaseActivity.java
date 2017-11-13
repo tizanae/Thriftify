@@ -9,6 +9,10 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
@@ -16,25 +20,28 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 
 public abstract class BaseActivity extends AppCompatActivity {
-    private Drawer drawer;
-    private Toolbar toolbar;
+    private Drawer mDrawer;
+    private Toolbar mToolbar;
+    private DatabaseReference mRootDatabase;
+    private StorageReference mRootStorage;
 
     public Toolbar getToolbar() {
 
-        if (toolbar != null) return toolbar;
-        toolbar = findViewById(R.id.toolbar);
-        if (toolbar == null) {
+        if (mToolbar != null) return mToolbar;
+        mToolbar = findViewById(R.id.toolbar);
+        if (mToolbar == null) {
             return null;
         }
-        setSupportActionBar(toolbar);
-        return toolbar;
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        return mToolbar;
     }
 
     public Drawer getDrawer() {
-        if (toolbar == null || drawer != null) return drawer;
-        drawer = new DrawerBuilder()
+        if (mToolbar == null || mDrawer != null) return mDrawer;
+        mDrawer = new DrawerBuilder()
                 .withActivity(this)
-                .withToolbar(toolbar)
+                .withToolbar(mToolbar)
                 .withHasStableIds(true)
                 .addDrawerItems(
                         new PrimaryDrawerItem().withName(R.string.drawer_item_categories).withIdentifier(1),
@@ -84,11 +91,25 @@ public abstract class BaseActivity extends AppCompatActivity {
                     }
                 })
                 .build();
-        return drawer;
+        return mDrawer;
+    }
+
+    public DatabaseReference getRootDatabase() {
+        if (mRootDatabase == null) {
+            mRootDatabase = FirebaseDatabase.getInstance().getReference();
+        }
+        return mRootDatabase;
+    }
+
+    public StorageReference getRootStorage() {
+        if (mRootStorage == null) {
+            mRootStorage = FirebaseStorage.getInstance().getReference();
+        }
+        return mRootStorage;
     }
 
     public void setBackArrow() {
-        if (toolbar == null) {
+        if (mToolbar == null || getSupportActionBar() == null) {
             return;
         }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
