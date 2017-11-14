@@ -1,6 +1,7 @@
 package theateam.thriftify;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -14,7 +15,6 @@ import java.util.ArrayList;
 public class ActiveChatsActivity extends BaseActivity {
 
     private static final String TAG = ActiveChatsActivity.class.getSimpleName();
-
 
     ActiveChatUserAdapter mAdapter;
 
@@ -30,6 +30,7 @@ public class ActiveChatsActivity extends BaseActivity {
         ChildEventListener activeUserChatsListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Log.i(TAG, "User added");
                 String from_user_id = dataSnapshot.getKey();
                 getUser(from_user_id);
             }
@@ -47,10 +48,13 @@ public class ActiveChatsActivity extends BaseActivity {
             public void onCancelled(DatabaseError databaseError) {}
         };
 
+        Log.i(TAG, "Returning active chats");
+
         getRootDatabase()
                 .child("messages")
                 .child(getCurrentUser().getUid())
                 .addChildEventListener(activeUserChatsListener);
+
         ListView listView = findViewById(R.id.active_chats);
         TextView emptyText = findViewById(android.R.id.empty);
         listView.setEmptyView(emptyText);

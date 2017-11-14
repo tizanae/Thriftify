@@ -21,15 +21,16 @@ public class ActiveChatUserAdapter extends ArrayAdapter<User> {
         ImageView thumbnail;
     }
 
-    public ActiveChatUserAdapter(Context context, ArrayList<User> activeChatUsers) {
+    ActiveChatUserAdapter(Context context, ArrayList<User> activeChatUsers) {
         super(context, R.layout.active_chat_user, activeChatUsers);
     }
 
     @Override
     @NonNull
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
 
         final User activeChatUser = getItem(position);
+        if (activeChatUser == null) return convertView;
         ViewHolder viewHolder;
 
         if (convertView == null) {

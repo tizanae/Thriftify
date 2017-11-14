@@ -181,29 +181,32 @@ public class FinishRegistrationActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                     mRegistrationProgress.dismiss();
                     if (task.isSuccessful()) {
-                        String downloadUri = task.getResult().getDownloadUrl().toString();
-                        User user = new User(
-                                userId,
-                                firstName,
-                                lastName,
-                                downloadUri,
-                                mLastLocation.getLatitude(),
-                                mLastLocation.getLongitude()
-                        );
-                        mDatabase.child("users").child(userId).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                mRegistrationProgress.dismiss();
-                                if (task.isSuccessful()) {
-                                    Intent intent = new Intent(FinishRegistrationActivity.this, MainActivity.class);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                    finish();
-                                    startActivity(intent);
-                                } else {
-                                    Toast.makeText(FinishRegistrationActivity.this, "", Toast.LENGTH_SHORT).show();
+                        if (task.getResult() != null && task.getResult().getDownloadUrl() != null) {
+                            String downloadUri = task.getResult().getDownloadUrl().toString();
+                            User user = new User(
+                                    userId,
+                                    firstName,
+                                    lastName,
+                                    downloadUri,
+                                    mLastLocation.getLatitude(),
+                                    mLastLocation.getLongitude()
+                            );
+                            mDatabase.child("users").child(userId).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    mRegistrationProgress.dismiss();
+                                    if (task.isSuccessful()) {
+                                        Intent intent = new Intent(FinishRegistrationActivity.this, MainActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        finish();
+                                        startActivity(intent);
+                                    } else {
+                                        Toast.makeText(FinishRegistrationActivity.this, "", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        }
+
 
                     } else {
                         Log.e(TAG, "putFile: Failed, " + task.getException());

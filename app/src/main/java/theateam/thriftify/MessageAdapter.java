@@ -1,6 +1,5 @@
 package theateam.thriftify;
 
-import android.speech.tts.TextToSpeech;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +8,6 @@ import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
@@ -20,33 +18,32 @@ import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-// https://github.com/akshayejh/Lapit---Android-Firebase-Chat-App
-
+/**
+ * https://github.com/akshayejh/Lapit---Android-Firebase-Chat-App
+ */
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageViewHolder> {
     private List<Message> mMessageList;
     private String mUserId;
 
-    private DatabaseReference mUserDatabase;
-
-    public MessageAdapter(List<Message> mMessageList, String mUserId) {
+    MessageAdapter(List<Message> mMessageList, String mUserId) {
         this.mMessageList = mMessageList;
         this.mUserId = mUserId;
     }
 
-    public class MessageViewHolder extends RecyclerView.ViewHolder {
+    class MessageViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView messageText;
-        public TextView displayName;
-        public CircleImageView profileImage;
-        public TextView timeText;
+        TextView messageText;
+        TextView displayName;
+        CircleImageView profileImage;
+        TextView timeText;
 
-        public MessageViewHolder(View view) {
+        MessageViewHolder(View view) {
             super(view);
 
-            messageText = (TextView) view.findViewById(R.id.message_text_layout);
-            displayName = (TextView) view.findViewById(R.id.name_text_layout);
-            profileImage = (CircleImageView) view.findViewById(R.id.message_profile_layout);
-            timeText = (TextView) view.findViewById(R.id.time_text_layout);
+            messageText = view.findViewById(R.id.message_text_layout);
+            displayName = view.findViewById(R.id.name_text_layout);
+            profileImage = view.findViewById(R.id.message_profile_layout);
+            timeText = view.findViewById(R.id.time_text_layout);
 
         }
     }
@@ -72,18 +69,22 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     @Override
     public void onBindViewHolder(final MessageViewHolder viewHolder, int i) {
 
-        Message c = mMessageList.get(i);
+        Message message = mMessageList.get(i);
 
-        String from_user = c.getFrom();
+        String from_user = message.getFrom();
 
-        mUserDatabase = FirebaseDatabase.getInstance().getReference().child("users").child(from_user);
-
-        mUserDatabase.addValueEventListener(new ValueEventListener() {
+        FirebaseDatabase
+                .getInstance()
+                .getReference()
+                .child("users")
+                .child(from_user)
+                .addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
-
-                viewHolder.displayName.setText(user.getFirstName() + " " + user.getLastName());
+                if (user == null) return;
+                String fullName = user.getFirstName() + " " + user.getLastName();
+                viewHolder.displayName.setText(fullName);
 
                 Picasso.with(viewHolder.profileImage.getContext()).load(user.getThumbnail())
                         .placeholder(R.drawable.default_avatar).into(viewHolder.profileImage);
@@ -96,11 +97,11 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             }
         });
 
-        viewHolder.messageText.setText(c.getMessage());
+        viewHolder.messageText.setText(message.getMessage());
         SimpleDateFormat simpleDateFormat =
                 new SimpleDateFormat("d MMM yy, hh:mm aaa", Locale.US);
 
-        viewHolder.timeText.setText(simpleDateFormat.format(c.getTimestamp()));
+        viewHolder.timeText.setText(simpleDateFormat.format(message.getTimestamp()));
 
 
     }

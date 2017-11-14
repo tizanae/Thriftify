@@ -102,11 +102,11 @@ public class CategoryViewActivity extends BaseActivity {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             Post post = dataSnapshot.getValue(Post.class);
-
-
-                            if (mCategoryKey.equals(post.getCategoryKey())) {
-                                Log.i(TAG, "ADDING A POST");
-                                postPreviewAdapter.add(post);
+                            if (post != null) {
+                                if (mCategoryKey.equals(post.getCategoryKey())) {
+                                    Log.i(TAG, "ADDING A POST");
+                                    postPreviewAdapter.add(post);
+                                }
                             }
                         }
 

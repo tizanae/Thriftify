@@ -1,28 +1,41 @@
 package theateam.thriftify;
 
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class Message {
     private String message;
     private String from;
     private long timestamp;
 
-    public Message() {
+    Message() {}
 
-    }
-
-    public Message(String message, String from, long timestamp) {
+    Message(String message, String from, long timestamp) {
         this.message = message;
         this.from = from;
         this.timestamp = timestamp;
     }
 
-    public String getFrom() {
-        return this.from;
-    }
 
     public String getMessage() {
-        return this.message;
+        return message;
     }
 
-    public long getTimestamp() { return this.timestamp; }
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
+    public String getFrom() {
+        return from;
+    }
+
+    public void setFrom(String from) {
+        this.from = from;
+    }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
+    }
 }

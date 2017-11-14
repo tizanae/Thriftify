@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -113,14 +114,14 @@ public class PostItemActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            Log.i(TAG, "Received result from crop image");
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
                 Uri resultUri = result.getUri();
                 adapter.add(resultUri);
 
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                Exception error = result.getError();
-                Toast.makeText(this, "Error in loading picture: " + error.getMessage(), Toast.LENGTH_LONG).show();
+                Log.e(TAG, result.getError().getMessage());
             }
         }
     }
@@ -201,6 +202,7 @@ public class PostItemActivity extends BaseActivity {
                             @Override
                             public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                                 if (task.isSuccessful()) {
+                                    if (task.getResult() == null || task.getResult().getDownloadUrl() == null) return;
                                     String download_uri = task.getResult().getDownloadUrl().toString();
                                     getRootDatabase().child("posts").child(mCategoryKey).child(newPostKey).child("pictures").push().setValue(download_uri);
                                 }

@@ -24,15 +24,17 @@ public class PostPreviewAdapter extends ArrayAdapter<Post> {
         CardView cardView;
     }
 
-    public PostPreviewAdapter(Context context, ArrayList<Post> posts) {
+    PostPreviewAdapter(Context context, ArrayList<Post> posts) {
         super(context, R.layout.posting_template, posts);
     }
 
     @Override
     @NonNull
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
 
         final Post post = getItem(position);
+        if (post == null) return convertView;
+
         ViewHolder viewHolder;
 
         if (convertView == null) {

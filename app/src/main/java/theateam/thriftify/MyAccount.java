@@ -3,6 +3,7 @@ package theateam.thriftify;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,9 +21,6 @@ public class MyAccount extends BaseActivity {
 
     private static final String TAG = MyAccount.class.getSimpleName();
 
-    private DatabaseReference mUserDatabase;
-    private FirebaseUser mCurrentUser;
-
     private TextView mScreenName;
     private ImageView mProfilePicture;
 
@@ -35,9 +33,7 @@ public class MyAccount extends BaseActivity {
         getToolbar();
         getDrawer();
 
-        mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
-        String uid = mCurrentUser.getUid();
-        mUserDatabase = FirebaseDatabase.getInstance().getReference().child("users").child(uid);
+        String uid = getCurrentUser().getUid();
 
         mScreenName = findViewById(R.id.screen_name);
         mProfilePicture = findViewById(R.id.profile_picture);
@@ -46,26 +42,26 @@ public class MyAccount extends BaseActivity {
         mRegistrationProgress.setMessage("Please wait!");
         mRegistrationProgress.setCanceledOnTouchOutside(false);
         mRegistrationProgress.show();
-        mUserDatabase.addValueEventListener(new ValueEventListener() {
+
+        Log.i(TAG, "Getting user profile");
+        getRootDatabase().child("users").child(uid).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mRegistrationProgress.dismiss();
                 User currentUser = dataSnapshot.getValue(User.class);
-//                String first_name = dataSnapshot.child("first_name").getValue().toString();
-//                String last_name = dataSnapshot.child("last_name").getValue().toString();
-//                String profile_pic_uri = dataSnapshot.child("profile_picture_uri").getValue().toString();
-                String fullName = currentUser.getFirstName() + " " + currentUser.getLastName();
-                mScreenName.setText(fullName);
-                Picasso.with(MyAccount.this)
-                        .load(currentUser.getThumbnail())
-                        .placeholder(R.drawable.profile)
-                        .into(mProfilePicture);
-
+                if (currentUser != null) {
+                    String fullName = currentUser.getFirstName() + " " + currentUser.getLastName();
+                    mScreenName.setText(fullName);
+                    Picasso.with(MyAccount.this)
+                            .load(currentUser.getThumbnail())
+                            .placeholder(R.drawable.profile)
+                            .into(mProfilePicture);
+                }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                Log.e(TAG, "Error while retrieving user profile: " + databaseError.getDetails());
             }
         });
 

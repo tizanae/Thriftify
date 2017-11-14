@@ -1,9 +1,8 @@
 package theateam.thriftify;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.net.Uri;
-import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,12 +20,13 @@ public class PostItemPictureAdapter extends ArrayAdapter<Uri> {
         ImageView imageView;
     }
 
-    public PostItemPictureAdapter(Context context, ArrayList<Uri> picture_uris) {
+    PostItemPictureAdapter(Context context, ArrayList<Uri> picture_uris) {
         super(context, R.layout.post_item_picture, picture_uris);
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    @NonNull
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
 
         final Uri uri = getItem(position);
         ViewHolder viewHolder;
@@ -41,7 +41,6 @@ public class PostItemPictureAdapter extends ArrayAdapter<Uri> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         Button btnDelete = convertView.findViewById(R.id.deleteButton);
-//        Button btnDefault = (Button) convertView.findViewById(R.id.defaultButton);
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

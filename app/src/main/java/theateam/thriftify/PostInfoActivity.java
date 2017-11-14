@@ -24,7 +24,6 @@ public class PostInfoActivity extends BaseActivity {
     private TextView mTitleView;
     private TextView mPriceView;
     private TextView mDescriptionView;
-    private Button mChat;
 
     private CarouselView mCarouselView;
 
@@ -49,7 +48,7 @@ public class PostInfoActivity extends BaseActivity {
         mTitleView = findViewById(R.id.post_title);
         mPriceView = findViewById(R.id.post_price);
         mDescriptionView = findViewById(R.id.post_description);
-        mChat = findViewById(R.id.contact);
+        Button chatButton = findViewById(R.id.contact);
 
         mLoadingDialog = new ProgressDialog(this);
         mLoadingDialog.setTitle("Loading item...");
@@ -77,7 +76,7 @@ public class PostInfoActivity extends BaseActivity {
 
             }
         });
-        mChat.setOnClickListener(new View.OnClickListener() {
+        chatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(PostInfoActivity.this, ChatActivity.class);
